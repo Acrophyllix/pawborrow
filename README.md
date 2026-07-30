@@ -1,4 +1,8 @@
-# React + TypeScript + Vite
+# PawBorrow
+System Intagration and Archictecture 1 Project
+> PawBorrow is an e-commerce business based on service offerings which offer temporary companion experiences to residents of Quezon City. The business maintains a company owned and managed fleet of pets (cats, dogs, and guinea pigs) in which customers can use the online platform for browsing pet profiles, real-time availability, scheduling of supervised companion experience sessions, and managing bookings of pets.
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -7,7 +11,7 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+### React Compiler
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
