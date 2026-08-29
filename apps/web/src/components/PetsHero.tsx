@@ -35,9 +35,6 @@ export default function PetsHero() {
             aliquam amet rhoncus quisque eget sit.
           </p>
         </div>
-        <div className="footer-col">
-        <h5>Company</h5>
-      </div>
         <div className="pets-hero-image">
           <div className="hero-blob" />
           {/* Replace with your real cat/dog photo */}
