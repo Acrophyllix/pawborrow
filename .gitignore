@@ -1,1 +1,31 @@
-﻿node_modules/
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+.vite/
+*.tsbuildinfo
+
+# Environment variables / secrets
+.env
+.env.local
+.env.*.local
+
+# Capacitor / Android
+apps/mobile/android/app/build/
+apps/mobile/android/.gradle/
+apps/mobile/android/local.properties
+*.keystore
+*.jks
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
