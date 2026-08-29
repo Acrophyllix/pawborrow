@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/tonytoes/pawborrow/issues"
   },
-  "homepage": "https://github.com/tonytoes/pawborrow#readme"
+  "homepage": "https://github.com/tonytoes/pawborrow#readme",
+  "dependencies": {
+    "lucide-react": "^1.35.0"
+  }
 }
