@@ -1,12 +1,11 @@
-import PawTile from './PawTile';
+import PhotoTile from './PhotoTile';
 
 const CATEGORIES = [
-  { name: 'Cats', count: '10 companions', tone: 'coral' as const },
-  { name: 'Dogs', count: '9 companions', tone: 'peach' as const },
-  { name: 'Guinea Pigs', count: '10 companions', tone: 'sage' as const },
-  { name: 'All Pets', count: 'View everything', tone: 'sand' as const },
+  { name: 'Cats', count: '10 companions', tone: 'coral' as const, image: '/images/category-cats.jpg' },
+  { name: 'Dogs', count: '9 companions', tone: 'peach' as const, image: '/images/category-dogs.jpg' },
+  { name: 'Guinea Pigs', count: '10 companions', tone: 'sage' as const, image: '/images/category-guinea-pigs.jpg' },
+  { name: 'Rabbits', count: '3 companions', tone: 'sand' as const, image: '/images/category-rabbits.jpg' },
 ];
-
 export default function Categories() {
   return (
     <section id="browse" className="section categories">
@@ -21,7 +20,7 @@ export default function Categories() {
       <div className="categories__grid">
         {CATEGORIES.map((c) => (
           <a href="#browse" className="category-card" key={c.name}>
-            <PawTile tone={c.tone} className="category-card__image" />
+            <PhotoTile src={c.image} alt={c.name} tone={c.tone} className="category-card__image" />
             <div className="category-card__meta">
               <div>
                 <h3>{c.name}</h3>

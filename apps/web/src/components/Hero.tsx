@@ -18,11 +18,11 @@ export default function Hero() {
 
       <div className="hero__art">
         <div className="hero__blob" aria-hidden="true" />
-        <div className="hero__photo-grid">
-          <div className="hero__photo hero__photo--1"><span>🐕</span></div>
-          <div className="hero__photo hero__photo--2"><span>🐈</span></div>
-          <div className="hero__photo hero__photo--3"><span>🐹</span></div>
-        </div>
+        <img
+          src="/images/hero-dogs.png"
+          alt="Three golden retriever puppies available to borrow"
+          className="hero__cutout"
+        />
       </div>
     </section>
   );

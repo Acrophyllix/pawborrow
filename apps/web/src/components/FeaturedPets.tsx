@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import PawTile from './PawTile';
+import PhotoTile from './PhotoTile';
 
 const PETS = [
-  { name: 'Milo', breed: 'Persian Cat', price: '₱250/day', tone: 'coral' as const },
-  { name: 'Buddy', breed: 'Pug', price: '₱300/day', tone: 'peach' as const },
-  { name: 'Bella', breed: 'Golden Retriever', price: '₱280/day', tone: 'sand' as const },
+  { name: 'Milo', breed: 'Persian Cat', price: '₱250/day', tone: 'coral' as const, image: '/images/featured-milo.jpg' },
+  { name: 'Buddy', breed: 'Pug', price: '₱300/day', tone: 'peach' as const, image: '/images/featured-buddy.jpg' },
+  { name: 'Bella', breed: 'Golden Retriever', price: '₱280/day', tone: 'sand' as const, image: '/images/featured-bella.jpg' },
 ];
 
 export default function FeaturedPets() {
@@ -20,7 +20,7 @@ export default function FeaturedPets() {
       <div className="featured__grid">
         {PETS.map((pet) => (
           <div className="pet-card" key={pet.name}>
-            <PawTile tone={pet.tone} className="pet-card__image" />
+            <PhotoTile src={pet.image} alt={`${pet.name}, ${pet.breed}`} tone={pet.tone} className="pet-card__image" />
             <div className="pet-card__meta">
               <div>
                 <h3>{pet.name}</h3>
