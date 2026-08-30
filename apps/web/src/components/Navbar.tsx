@@ -1,16 +1,22 @@
+import { Link, useLocation } from 'react-router-dom';
+
 export default function Navbar() {
+  const { pathname } = useLocation();
+  const onHome = pathname === '/';
+
   return (
     <header className="navbar">
       <div className="navbar__inner">
-        <a href="#top" className="navbar__logo">
+        <Link to="/" className="navbar__logo">
           <span className="navbar__logo-mark">🐾</span> PawBorrow
-        </a>
+        </Link>
 
         <nav className="navbar__links" aria-label="Primary">
-          <a href="#top" className="is-active">Home</a>
-          <a href="#browse">Browse Pets</a>
-          <a href="#how-it-works">How It Works</a>
-          <a href="#contact">Contact Us</a>
+          <a href="/#top" className={onHome ? 'is-active' : ''}>Home</a>
+          <a href="/#browse">Browse Pets</a>
+          <a href="/#how-it-works">How It Works</a>
+          <Link to="/about" className={!onHome ? 'is-active' : ''}>About Us</Link>
+          <a href="/#contact">Contact Us</a>
         </nav>
 
         <div className="navbar__actions">
