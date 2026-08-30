@@ -1,24 +1,15 @@
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Categories from './components/Categories';
-import FeaturedPets from './components/FeaturedPets';
-import SecondaryHero from './components/SecondaryHero';
-import Included from './components/Included';
-import Stories from './components/Stories';
-import Footer from './components/Footer';
+import Home from './components/Home.tsx';
+import AboutPage from './components/AboutPage.tsx';
 
 function App() {
   return (
     <div className="page">
-      <Navbar />
-      <Hero />
-      <Categories />
-      <FeaturedPets />
-      <SecondaryHero />
-      <Included />
-      <Stories />
-      <Footer />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
     </div>
   );
 }

@@ -1,11 +1,13 @@
+import { Link } from 'react-router-dom';
+
 export default function Footer() {
   return (
     <footer id="contact" className="footer">
       <div className="footer__top">
         <div className="footer__brand">
-          <a href="#top" className="navbar__logo">
+          <Link to="/" className="navbar__logo">
             <span className="navbar__logo-mark">🐾</span> PawBorrow
-          </a>
+          </Link>
           <p>
             Temporary pet companionship for Quezon City households — borrow the joy,
             skip the long-term commitment.
@@ -21,7 +23,7 @@ export default function Footer() {
         <div className="footer__col">
           <h4>Company</h4>
           <ul>
-            <li><a href="#">About Us</a></li>
+            <li><Link to="/about">About Us</Link></li>
             <li><a href="#">Blog</a></li>
             <li><a href="#">Careers</a></li>
           </ul>
@@ -30,7 +32,7 @@ export default function Footer() {
         <div className="footer__col">
           <h4>Useful Links</h4>
           <ul>
-            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="/#how-it-works">How It Works</a></li>
             <li><a href="#">Become a Host</a></li>
             <li><a href="#">F.A.Q.</a></li>
           </ul>
@@ -39,7 +41,7 @@ export default function Footer() {
         <div className="footer__col">
           <h4>Customer Service</h4>
           <ul>
-            <li><a href="#">Contact Us</a></li>
+            <li><a href="/#contact">Contact Us</a></li>
             <li><a href="#">Safety & Trust</a></li>
             <li><a href="#">Support</a></li>
           </ul>
