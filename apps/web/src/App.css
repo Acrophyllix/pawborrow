@@ -405,17 +405,27 @@
   max-width: calc(var(--max-w) - 48px);
 }
 
-.section-hero__photo {
-  background: #fff;
-  border-radius: var(--radius-md);
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
+.section-hero__art {
+  position: relative;
+  min-height: 260px;
 }
 
-.section-hero__photo .photo-tile,
-.section-hero__photo .paw-tile {
-  border-radius: 0;
-  aspect-ratio: 4 / 3;
+.section-hero__blob {
+  position: absolute;
+  inset: 0;
+  background: var(--coral);
+  border-radius: 48% 52% 55% 45% / 50% 45% 55% 50%;
+}
+
+.section-hero__cutout {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.2));
 }
 
 .section-hero__text h2 {
