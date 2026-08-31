@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { RouterProvider } from 'react-router-dom';
+import router from './router';
 import './App.css';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 
 // ---------- PawTile: illustrated placeholder ----------
 type PawTileProps = {
@@ -255,18 +254,7 @@ function Stories() {
 
 // ---------- App ----------
 function App() {
-  return (
-    <div className="page">
-      <Navbar />
-      <Hero />
-      <Categories />
-      <FeaturedPets />
-      <SecondaryHero />
-      <Included />
-      <Stories />
-      <Footer />
-    </div>
-  );
+  return <RouterProvider router={router} />
 }
 
 export default App;
