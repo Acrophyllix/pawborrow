@@ -1,18 +1,5 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap");
-
-:root {
-  --coral: #ee7b6e;
-  --coral-dark: #e4604f;
-  --peach: #f6b287;
-  --ink: #1b1b1b;
-  --muted: #6f6f6f;
-  --cream: #fafaf8;
-  --line: #ececec;
-  --radius-lg: 28px;
-  --radius-md: 18px;
-  --max-w: 1180px;
-}
+@import "tailwindcss";
 
 /*
 Source - https://stackoverflow.com/a/79650025
