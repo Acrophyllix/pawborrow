@@ -708,3 +708,134 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ---------- Testimonials ---------- */
+.about__testimonials {
+  padding-top: 48px;
+  border-top: 1px solid var(--line);
+}
+
+.about__stars {
+  color: var(--coral-dark);
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+.about__testimonial-content {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.about__testimonial-quote {
+  max-width: 460px;
+}
+
+.about__testimonial-quote p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.about__testimonial-author {
+  color: var(--ink);
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.about__testimonial-author span {
+  display: block;
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.about__testimonial-photo {
+  width: 220px;
+  height: 220px;
+  border-radius: 44% 56% 60% 40% / 50% 45% 55% 50%;
+  overflow: hidden;
+  border: 6px solid var(--peach);
+  flex-shrink: 0;
+}
+
+.about__testimonial-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about__video {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.about__video img {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  object-fit: cover;
+}
+
+.about__play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--coral);
+  color: #fff;
+  font-size: 1.1rem;
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- Instagram ---------- */
+.about__instagram {
+  padding-top: 48px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.about__instagram h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.about__instagram-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.about__instagram-grid .photo-tile {
+  aspect-ratio: 1 / 1;
+}
+
+.about__instagram-link {
+  display: inline-block;
+  margin: 0.5rem 0 1.5rem;
+  color: #6b4f3b; /* match your theme */
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.about__instagram-link:hover {
+  color: #8b6a52;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .about__testimonial-content {
+    justify-content: center;
+    text-align: center;
+  }
+  .about__instagram-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
