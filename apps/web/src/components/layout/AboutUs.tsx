@@ -1,3 +1,5 @@
+import '@/styles/About.css';
+
 const stats = [
   { value: "2k+", label: "Happy borrowers" },
   { value: "150+", label: "Pets available" },

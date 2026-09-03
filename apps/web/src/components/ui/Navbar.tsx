@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import '@/styles/Navbar.css';
 
 export default function Navbar() {
   const { pathname } = useLocation();
@@ -34,7 +35,7 @@ export default function Navbar() {
               <path d="M12 21s-7.5-4.6-10-9.1C.4 8.3 2 4.5 5.7 4c2.1-.3 4 .8 6.3 3.1C14.3 4.8 16.2 3.7 18.3 4c3.7.5 5.3 4.3 3.7 7.9C19.5 16.4 12 21 12 21Z" stroke="currentColor" strokeWidth="1.5" />
             </svg>
           </button>
-          <a href="#browse" className="navbar__cta">Sign In</a>
+          <a href="/Login" className="navbar__cta">Sign In</a>
         </div>
       </div>
     </header>
