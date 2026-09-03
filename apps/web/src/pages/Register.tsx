@@ -138,7 +138,25 @@ export default function Signup() {
             </button>
           </form>
 
-          {/* Login Link */}
+          <p className="mt-5 px-2 text-center font-body text-[11px] leading-relaxed text-[#888]">
+            By creating an account, you agree to our{" "}
+            <a
+              href="/tos"
+              className="text-[#6f6f6f] underline underline-offset-2 transition-colors hover:text-[#879b7b]"
+            >
+              Terms of Service
+            </a>{" "}
+            and acknowledge that PawBorrow and each Member process your personal
+            data in accordance with our{" "}
+            <a
+              href="/privacy"
+              className="text-[#6f6f6f] underline underline-offset-2 transition-colors hover:text-[#879b7b]"
+            >
+              Privacy Policy
+            </a>
+            .
+          </p>
+
           <p className="mt-8 text-center text-sm text-[#6f6f6f]">
             Already have an account?{" "}
             <a
