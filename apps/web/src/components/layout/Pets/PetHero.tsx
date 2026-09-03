@@ -1,27 +1,8 @@
 // src/components/PetsHero.tsx
-import { Heart, Search, User } from "lucide-react";
 
 export default function PetsHero() {
   return (
     <header className="pets-hero">
-      <nav className="pets-nav">
-        <div className="pets-logo">
-          🐾 Paw<span>Borrow</span>
-        </div>
-        <ul className="pets-nav-links">
-          <li>Home</li>
-          <li className="active">Pets</li>
-          <li>About Us</li>
-          <li>Contact Us</li>
-        </ul>
-        <div className="pets-nav-actions">
-          <input type="text" placeholder="Search products..." />
-          <Search size={18} />
-          <Heart size={18} />
-          <User size={18} />
-        </div>
-      </nav>
-
       <div className="pets-hero-content">
         <div className="pets-hero-text">
           <span className="eyebrow">PawBorrow</span>
