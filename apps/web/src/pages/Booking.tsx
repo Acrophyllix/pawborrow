@@ -31,13 +31,7 @@ const PETS: Pet[] = [
   },
 ];
 
-type BookingForm = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  message: string;
-  selectedPet: number | null;
-};
+
 
 function BookingHero() {
   return (
@@ -196,16 +190,7 @@ function PaymentInformation() {
   );
 }
 
-function BookingFooterPayments() {
-  return (
-    <div className="booking-payment-logos">
-      <span>VISA</span>
-      <span>▰▰▰</span>
-      <span>●●</span>
-      <strong>PayPal</strong>
-    </div>
-  );
-}
+
 
 export default function Booking() {
   const [selectedPet, setSelectedPet] = useState<number | null>(null);
