@@ -2,7 +2,7 @@ import { useState } from "react";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import "@/styles/Home.css";
-import "@/styles/Button.module.css";
+import "@/styles/Button.css";
 
 type PawTileProps = {
   tone?: "coral" | "peach" | "sage" | "sand" | "ink";
