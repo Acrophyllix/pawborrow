@@ -1,0 +1,63 @@
+.btn {
+  display: inline-block;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.btn--dark {
+  background: var(--ink);
+  color: #fff;
+}
+
+.btn--ghost {
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+}
+
+.eyebrow {
+  color: var(--coral-dark);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+
+.eyebrow--dark {
+  color: #fff;
+  opacity: 0.85;
+}
+
+.section {
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+.section > h2,
+.section__head h2 {
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+.section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.section__arrows button {
+  background: var(--ink);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+.featured > h2,
+.included > h2,
+.stories > h2 {
+  margin-bottom: 32px;
+}

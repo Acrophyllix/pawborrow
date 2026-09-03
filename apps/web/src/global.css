@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+/*
+Source - https://stackoverflow.com/a/79650025
+Posted by rozsazoltan, modified by community. See post 'Timeline' for change history
+Retrieved 2026-09-02, License - CC BY-SA 4.0
+*/
+
+@utility container {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (min-width: 40rem) {
+    padding-inline: 2rem;
+  }
+}
+@theme {
+  /* New breakpoints for @container - @tablet:, @laptop:, @desktop: */
+  --breakpoint-tablet: 20rem;
+  --breakpoint-laptop: 32rem;
+  --breakpoint-desktop: 40rem;
+}
