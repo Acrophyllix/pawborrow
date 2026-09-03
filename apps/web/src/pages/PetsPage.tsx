@@ -5,6 +5,8 @@ import PetsFilterSidebar from "@/components/layout/Pets/PetFilterSidebar";
 import PetsGrid from "@/components/layout/Pets/PetGrid";
 import PetsFooter from "@/components/ui/Footer";
 import { pets } from "@/components/layout/Pets/pets";
+import Navbar from "@/components/ui/Navbar";
+import "@/styles/Pet.css";
 
 const PAGE_SIZE = 9;
 
@@ -36,6 +38,7 @@ export default function PetsPage() {
 
   return (
     <div className="pets-page">
+      <Navbar />
       <PetsHero />
       <PetsCategoryRow />
 

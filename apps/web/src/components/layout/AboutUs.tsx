@@ -15,10 +15,17 @@ const team = [
   { name: "John Michael Vincent Uayan", role: "Seller", photo: "/images/team-john.jpg" },
 ];
 
+const instagramPosts = [
+  "/images/insta-1.jpg",
+  "/images/insta-2.jpg",
+  "/images/insta-3.jpg",
+  "/images/insta-4.jpg",
+];
+
 export default function AboutUs() {
   return (
     <section id="about" className="section about">
-      <div className="about__intro">
+      <div className="about__intro pt-5">
         <p className="eyebrow">PawBorrow &middot; About Us</p>
         <h2>
           Pet companionship, <span>without the long-term commitment.</span>
@@ -60,7 +67,7 @@ export default function AboutUs() {
         </div>
       </div>
 
-      <div className="about__team">
+     {/*} <div className="about__team">
         <div className="section__head">
           <h3>Our Team</h3>
         </div>
@@ -73,7 +80,69 @@ export default function AboutUs() {
             </div>
           ))}
         </div>
+      </div> */}
+
+      <div className="about__testimonials">
+        <div className="section__head">
+          <div>
+            <p className="eyebrow">Testimonials</p>
+            <h3>What people say about us</h3>
+          </div>
+          <div className="section__arrows">
+            <button aria-label="Previous testimonial">‹</button>
+            <button aria-label="Next testimonial">›</button>
+          </div>
+        </div>
+
+        <div className="about__testimonial-content">
+          <div className="about__testimonial-quote">
+            <div className="about__stars">★★★★★</div>
+            <p>
+              "PawBorrow gave me the chance to enjoy the company of a pet
+              without the long-term responsibility of owning one. The
+              booking process was simple, the pets were clearly well cared
+              for, and the entire experience was relaxing and enjoyable. I'd
+              recommend PawBorrow to anyone looking for a safe, meaningful
+              way to spend time with animals."
+            </p>
+            <p className="about__testimonial-author">
+              Elaine Jean <span>Customer</span>
+            </p>
+          </div>
+          <div className="about__testimonial-photo">
+            <img src="/images/testimonial-elaine.jpg" alt="Elaine Jean with her borrowed dog" />
+          </div>
+        </div>
+
+        <div className="about__video">
+          <img src="/images/testimonial-video.jpg" alt="Customer testimonial video thumbnail" />
+          <button className="about__play-btn" aria-label="Play testimonial video">▶</button>
+        </div>
       </div>
+
+      <div className="about__instagram">
+  <h3>Follow our Instagram</h3>
+
+  <a
+    href="https://www.instagram.com/pawborrowpaw/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="about__instagram-link"
+  >
+    @pawborrowpaw
+  </a>
+
+  <div className="about__instagram-grid">
+    {instagramPosts.map((src, i) => (
+      <img
+        className="photo-tile"
+        src={src}
+        alt={`Instagram post ${i + 1}`}
+        key={src}
+      />
+    ))}
+  </div>
+</div>
     </section>
   );
 }

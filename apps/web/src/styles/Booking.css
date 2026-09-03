@@ -1,0 +1,523 @@
+/* =========================================================
+   BOOKING PAGE
+   ========================================================= */
+
+.booking-page {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* ---------- HERO ---------- */
+
+.booking-hero {
+  position: relative;
+  min-height: 360px;
+  background: #f6f7f8;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 55px 12%;
+}
+
+.booking-hero__content {
+  position: relative;
+  z-index: 3;
+  max-width: 550px;
+}
+
+.booking-hero__eyebrow {
+  color: #ee6f75;
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.booking-hero h1 {
+  font-size: 36px;
+  line-height: 1.15;
+  font-weight: 800;
+  color: #111111;
+  margin-bottom: 12px;
+}
+
+.booking-hero__content > p:not(.booking-hero__eyebrow) {
+  font-size: 9px;
+  line-height: 1.55;
+  color: #777777;
+  margin-bottom: 22px;
+}
+
+.booking-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f46f75;
+  color: white;
+  font-size: 9px;
+  padding: 11px 25px;
+  border-radius: 5px;
+  transition: 0.2s ease;
+}
+
+.booking-button:hover {
+  background: #e85f66;
+  transform: translateY(-1px);
+}
+
+/* Hero image */
+
+.booking-hero__image {
+  position: absolute;
+  right: 12%;
+  top: 50%;
+  width: 330px;
+  height: 330px;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.booking-hero__circle {
+  position: absolute;
+  width: 290px;
+  height: 290px;
+  right: 0;
+  top: 20px;
+  background: #f16f75;
+  border-radius: 50% 45% 50% 48%;
+}
+
+.booking-hero__image img {
+  position: absolute;
+  z-index: 2;
+  width: 230px;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 50%;
+  right: 20px;
+  top: 48px;
+}
+
+/* Decorations */
+
+.booking-hero__decor {
+  position: absolute;
+  background: #f16f75;
+  border-radius: 50%;
+}
+
+.booking-hero__decor--one {
+  width: 70px;
+  height: 70px;
+  left: 28%;
+  top: -35px;
+}
+
+.booking-hero__decor--two {
+  width: 42px;
+  height: 42px;
+  left: -20px;
+  top: 135px;
+}
+
+.booking-hero__decor--three {
+  width: 65px;
+  height: 65px;
+  left: 39%;
+  bottom: -35px;
+}
+
+/* ---------- MAIN BOOKING ---------- */
+
+.booking-section {
+  width: 100%;
+  padding: 48px 11% 30px;
+}
+
+.booking-section--payment {
+  padding-top: 10px;
+  padding-bottom: 55px;
+}
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 65px;
+  align-items: start;
+}
+
+/* ---------- HEADINGS ---------- */
+
+.booking-section h2,
+.pet-selection h2,
+.payment-information h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  color: #111111;
+}
+
+.booking-description {
+  max-width: 370px;
+  font-size: 7px;
+  line-height: 1.5;
+  color: #777777;
+  margin-bottom: 20px;
+}
+
+/* ---------- PET LIST ---------- */
+
+.pet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.pet-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 440px;
+  background: transparent;
+  text-align: left;
+  padding: 0;
+  border: 0;
+}
+
+.pet-option__image {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f36f75;
+  margin-right: 12px;
+}
+
+.pet-option__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pet-option p {
+  font-family: "Poppins", sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  color: #222222;
+}
+
+.pet-option--selected .pet-option__image {
+  box-shadow: 0 0 0 3px rgba(238, 123, 110, 0.2);
+}
+
+/* ---------- CONTACT FORM ---------- */
+
+.booking-contact-form {
+  background: #f7f7f8;
+  border-radius: 10px;
+  padding: 18px 15px;
+  width: 100%;
+  max-width: 430px;
+  box-shadow: none;
+}
+
+.booking-contact-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.booking-contact-form label > span {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 6px;
+  font-weight: 600;
+  color: #222222;
+  margin-bottom: 4px;
+}
+
+.booking-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.booking-contact-form input,
+.booking-contact-form textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: #ffffff;
+  border-radius: 3px;
+  padding: 7px 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 7px;
+  color: #333333;
+}
+
+.booking-contact-form input {
+  height: 28px;
+}
+
+.booking-contact-form textarea {
+  min-height: 53px;
+  resize: vertical;
+}
+
+.booking-contact-form input::placeholder,
+.booking-contact-form textarea::placeholder {
+  color: #c0c0c0;
+}
+
+.booking-confirm-button {
+  margin-top: 2px;
+  width: 86px;
+  height: 25px;
+  background: #f36f75;
+  color: #ffffff;
+  border-radius: 3px;
+  font-family: "Poppins", sans-serif;
+  font-size: 7px;
+  font-weight: 500;
+}
+
+.booking-confirm-button:hover {
+  background: #e65f67;
+}
+
+/* ---------- PAYMENT INFORMATION ---------- */
+
+.payment-information {
+  padding-top: 0;
+}
+
+.payment-details {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-top: 22px;
+}
+
+.payment-detail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 7px;
+  font-weight: 600;
+  color: #222222;
+}
+
+.payment-icon {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #f36f75;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 8px;
+  flex-shrink: 0;
+}
+
+/* ---------- SUCCESS ---------- */
+
+.booking-success {
+  width: 78%;
+  max-width: 800px;
+  margin: 20px auto 50px;
+  padding: 35px;
+  text-align: center;
+  background: #f7f7f8;
+  border-radius: 12px;
+}
+
+.booking-success__icon {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #8aa37b;
+  color: white;
+  border-radius: 50%;
+  font-size: 22px;
+}
+
+.booking-success h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.booking-success p {
+  font-size: 11px;
+  color: #777777;
+}
+
+/* ---------- FOOTER ---------- */
+
+.booking-footer {
+  position: relative;
+  background: #f7f8f9;
+  padding: 30px 11% 18px;
+  overflow: hidden;
+}
+
+.booking-footer__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr 0.9fr 1fr 1.2fr;
+  gap: 30px;
+}
+
+.booking-footer__brand h3 {
+  color: #ee6f75;
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  margin-bottom: 8px;
+}
+
+.booking-footer__brand p,
+.booking-footer__column p,
+.booking-footer__column a {
+  display: block;
+  font-size: 6px;
+  line-height: 1.8;
+  color: #555555;
+}
+
+.booking-footer__column h4 {
+  font-size: 7px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #222222;
+}
+
+.booking-footer__column a:hover {
+  color: #ee6f75;
+}
+
+.booking-socials {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.booking-socials span {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #222222;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6px;
+}
+
+.booking-footer__bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eeeeee;
+  margin-top: 25px;
+  padding-top: 12px;
+}
+
+.booking-footer__bottom > span {
+  font-size: 6px;
+  color: #999999;
+}
+
+.booking-payment-logos {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 7px;
+  color: #555555;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 900px) {
+  .booking-hero {
+    padding: 45px 7%;
+  }
+
+  .booking-hero__image {
+    right: 3%;
+    opacity: 0.8;
+  }
+
+  .booking-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .booking-contact-form {
+    max-width: none;
+  }
+
+  .booking-footer__content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .booking-hero {
+    min-height: 500px;
+    padding: 40px 25px;
+  }
+
+  .booking-hero__content {
+    align-self: flex-start;
+  }
+
+  .booking-hero h1 {
+    font-size: 30px;
+  }
+
+  .booking-hero__image {
+    width: 280px;
+    height: 280px;
+    right: 50%;
+    transform: translate(50%, 0);
+    top: 235px;
+  }
+
+  .booking-hero__circle {
+    width: 240px;
+    height: 240px;
+  }
+
+  .booking-hero__image img {
+    width: 190px;
+    height: 190px;
+  }
+
+  .booking-section {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .booking-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .booking-footer {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .booking-footer__content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
