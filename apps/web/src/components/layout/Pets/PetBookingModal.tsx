@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Pet } from "@/components/layout/Pets/pets";
 import "@/styles/PetBookingModal.css";
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function PetBookingModal({ pet, onClose }: Props) {
+  const navigate = useNavigate();
   const [days, setDays] = useState(1);
 
   useEffect(() => {
@@ -33,6 +35,11 @@ export default function PetBookingModal({ pet, onClose }: Props) {
 
   const pricePerDay = PRICE_BY_CATEGORY[pet.category] ?? 220;
   const total = pricePerDay * days;
+
+  function handleBookNow() {
+    navigate("/booking", { state: { pet, days, total } });
+    onClose();
+  }
 
   return (
     <div className="pet-modal-backdrop" onClick={onClose}>
@@ -81,7 +88,7 @@ export default function PetBookingModal({ pet, onClose }: Props) {
             </div>
           </div>
 
-          <button className="pet-modal-book-btn">
+          <button className="pet-modal-book-btn" onClick={handleBookNow}>
             Book Now — ₱{total.toLocaleString()}.00
           </button>
 
