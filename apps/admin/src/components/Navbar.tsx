@@ -1,13 +1,15 @@
-import { LayoutDashboard, Users, Boxes, ClipboardList, Star, ChevronLeft } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarClock, Boxes, PawPrint, ClipboardList, Star, ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const links = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/' },
   { label: 'Users', icon: Users, to: '/users' },
-  { label: 'Inventory', icon: Boxes, to: null },
-  { label: 'Order', icon: ClipboardList, to: null },
-  { label: 'Reviews', icon: Star, to: null },
+  { label: 'Appointments', icon: CalendarClock, to: '/appointments' },
+  { label: 'Necessities', icon: Boxes, to: '/necessities' },
+  { label: 'Pets', icon: PawPrint, to: '/pets' },
+  { label: 'Order', icon: ClipboardList, to: '/order' },
+  { label: 'Reviews', icon: Star, to: '/reviews' },
 ];
 
 export default function Navbar() {
@@ -47,23 +49,20 @@ export default function Navbar() {
 
       <nav className="flex flex-col gap-2 px-4">
         {links.map(({ label, icon: Icon, to }) => {
-          const active = to !== null && pathname === to;
-          const className = `flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-            active
-              ? 'bg-white text-sky-500 shadow-sm'
-              : 'text-white/90 hover:bg-white/10'
-          }`;
-
-          return to ? (
-            <Link key={label} to={to} className={className}>
+          const active = pathname === to;
+          return (
+            <Link
+              key={label}
+              to={to}
+              className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                active
+                  ? 'bg-white text-sky-500 shadow-sm'
+                  : 'text-white/90 hover:bg-white/10'
+              }`}
+            >
               <Icon size={18} />
               {!collapsed && <span>{label}</span>}
             </Link>
-          ) : (
-            <a key={label} href="#" className={className}>
-              <Icon size={18} />
-              {!collapsed && <span>{label}</span>}
-            </a>
           );
         })}
       </nav>
