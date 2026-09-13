@@ -7,7 +7,13 @@ import '../style/Profile.css';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+
+  const profileName = user?.displayName ?? 'Sarah';
+  const fullName = user?.fullName ?? 'Sarah';
+  const phoneNumber = user?.phoneNumber ?? '+62 812 3456 7890';
+  const accountCreated = user?.accountCreated ?? 'August 2024';
+  const email = user?.email ?? 'test@pawborrow.com';
 
   return (
     <IonPage>
@@ -15,31 +21,31 @@ const Profile = () => {
         <div className="profile-page">
           <div className="profile-header">
             <div className="profile-avatar-wrap">
-              <img className="profile-avatar" src={avatar} alt="Sarah" />
+              <img className="profile-avatar" src={avatar} alt={profileName} />
             </div>
-            <p className="profile-name">Sarah</p>
-            <p className="profile-email">test@pawborrow.com</p>
+            <p className="profile-name">{profileName}</p>
+            <p className="profile-email">{email}</p>
           </div>
 
           <div className="profile-fields">
             <div className="profile-field">
               <span className="profile-field-label">Display name</span>
-              <span className="profile-field-value">Sarah</span>
+              <span className="profile-field-value">{profileName}</span>
             </div>
 
             <div className="profile-field">
               <span className="profile-field-label">Full Name</span>
-              <span className="profile-field-value">Sarah</span>
+              <span className="profile-field-value">{fullName}</span>
             </div>
 
             <div className="profile-field">
               <span className="profile-field-label">Phone Number</span>
-              <span className="profile-field-value">+62 812 3456 7890</span>
+              <span className="profile-field-value">{phoneNumber}</span>
             </div>
 
             <div className="profile-field">
               <span className="profile-field-label">Account created since</span>
-              <span className="profile-field-value">August 2024</span>
+              <span className="profile-field-value">{accountCreated}</span>
             </div>
           </div>
 

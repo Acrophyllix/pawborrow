@@ -5,9 +5,9 @@ export interface Pet {
   name: string;
   animalId: string;
   breedId: string;
-  photo: string;
+  image: string;
   age: string;
-  breedLabel: string;
+  breed: string;
   about: string;
   availableMonth: string;
   availableDays: { day: string; date: string }[];
@@ -20,9 +20,9 @@ export const pets: Pet[] = [
     name: 'Yuki',
     animalId: 'cat',
     breedId: 'persian',
-    photo: placeholderPhoto,
+    image: placeholderPhoto,
     age: '5 y/o',
-    breedLabel: 'Persian',
+    breed: 'Persian',
     about:
       'Yuki is a Persian-Breed Cat, a gentle, quiet, and affectionate pet that loves a calm home and relaxing on soft furniture.',
     availableMonth: 'February, 2024',
@@ -41,9 +41,9 @@ export const pets: Pet[] = [
     name: 'Mochi',
     animalId: 'cat',
     breedId: 'siamese',
-    photo: placeholderPhoto,
+    image: placeholderPhoto,
     age: '3 y/o',
-    breedLabel: 'Siamese',
+    breed: 'Siamese',
     about:
       'Mochi is a Siamese cat, playful and vocal, who loves attention and following her owner from room to room.',
     availableMonth: 'February, 2024',

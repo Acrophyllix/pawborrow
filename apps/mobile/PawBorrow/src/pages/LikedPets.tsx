@@ -53,7 +53,7 @@ const LikedPets = () => {
                   className="liked-pet-item"
                   onClick={() => navigate(`/dashboard/pet/${pet.id}`)}
                 >
-                  <img src={pet.photo} alt={pet.name} />
+                  <img src={pet.image} alt={pet.name} />
                   <span>{pet.name}</span>
                 </button>
               ))}

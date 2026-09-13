@@ -89,7 +89,7 @@ const BreedPets = () => {
                     >
                       <IonIcon icon={isLiked ? heart : heartOutline} />
                     </button>
-                    <img src={pet.photo} alt={pet.name} />
+                    <img src={pet.image} alt={pet.name} />
                     <span>{pet.name}</span>
                   </div>
                 );

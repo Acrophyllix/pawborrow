@@ -35,9 +35,9 @@ const PetDetails = () => {
       type: 'pet',
       category: 'Cat',
       name: pet.name,
-      subtitle: pet.breedLabel,
+      subtitle: pet.breed,
       detail: `Age: ${pet.age}`,
-      photo: pet.photo,
+      photo: pet.image,
       date: dayInfo ? `${dayInfo.day}, ${dayInfo.date} ${pet.availableMonth}` : pet.availableMonth,
       time: selectedTime,
     },
@@ -48,7 +48,7 @@ const PetDetails = () => {
     <IonPage>
       <IonContent fullscreen className="pet-details-content">
         <div className="pet-details-photo-wrap">
-          <img className="pet-details-photo" src={pet.photo} alt={pet.name} />
+          <img className="pet-details-photo" src={pet.image} alt={pet.name} />
           <button className="pet-details-back" aria-label="Go back" onClick={() => navigate(-1)}>
             <IonIcon icon={chevronBackOutline} />
           </button>
@@ -70,7 +70,7 @@ const PetDetails = () => {
             </div>
             <div className="pet-details-stat">
               <p className="pet-details-stat-label">Breed</p>
-              <p className="pet-details-stat-value">{pet.breedLabel}</p>
+              <p className="pet-details-stat-value">{pet.breed}</p>
             </div>
           </div>
 

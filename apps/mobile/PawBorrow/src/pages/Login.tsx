@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { IonContent, IonPage, IonIcon } from '@ionic/react';
 import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import logo from '../assets/images/logo.png';
+import { defaultUserProfile, type UserProfile } from '../context/AuthContext';
 import '../style/Login.css';
 
 // TODO: replace with a real API call once the backend is ready
@@ -10,7 +11,7 @@ const MOCK_EMAIL = 'test@pawborrow.com';
 const MOCK_PASSWORD = 'password123';
 
 interface LoginProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (profile?: Partial<UserProfile>) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
@@ -31,10 +32,12 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       return;
     }
 
-    // Mock check — swap this block for a real API call later
     if (trimmedEmail.toLowerCase() === MOCK_EMAIL && trimmedPassword === MOCK_PASSWORD) {
       setError('');
-      onLoginSuccess();
+      onLoginSuccess({
+        ...defaultUserProfile,
+        email: trimmedEmail,
+      });
       navigate('/dashboard', { replace: true });
     } else {
       setError('Incorrect email or password.');
