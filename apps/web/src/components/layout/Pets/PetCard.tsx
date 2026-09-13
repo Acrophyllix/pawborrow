@@ -28,7 +28,6 @@ export default function PetCard({ pet, onSelect }: Props) {
       <div className="pet-card-info">
         <h4>{pet.name}</h4>
         <p>Breed: {pet.breed}</p>
-        {pet.age && <p>Age: {pet.age}</p>}
       </div>
     </div>
   );

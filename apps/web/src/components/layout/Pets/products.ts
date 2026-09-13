@@ -35,7 +35,7 @@ export const products: Product[] = [
   { id: 23, name: "Portable Playpen / Enclosure", productCategory: "Bed & Comfort", animals: ["Rabbit", "Guinea Pig"], image: "/images/products/bed9.png" },
   { id: 24, name: "Calming Car Seat Harness/Booster", productCategory: "Bed & Comfort", animals: ["Dog", "Cat"], image: "/images/products/bed10.png" },
 
-  // ===== PET TOYS (13) =====
+
   { id: 25, name: "Heavy-Duty Rubber Chew / Kong (Fillable)", productCategory: "Pet Toys", animals: ["Dog"], image: "/images/products/toy1.png" },
   { id: 26, name: "Braided Rope Tug Toy", productCategory: "Pet Toys", animals: ["Dog"], image: "/images/products/toy2.png" },
   { id: 27, name: "Squeaky Plush Toy", productCategory: "Pet Toys", animals: ["Dog"], image: "/images/products/toy3.png" },

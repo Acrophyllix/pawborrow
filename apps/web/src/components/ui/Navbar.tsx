@@ -68,17 +68,8 @@ export default function Navbar() {
           </NavLink>
         </nav>
 
-        <div className="navbar__actions">
-          <div className="navbar__search">
-            <input
-              type="search"
-              placeholder="Search products..."
-              aria-label="Search"
-            />
-            <button aria-label="Search">
-              <Search size={20} />
-            </button>
-          </div>
+        <div className="flex items-center gap-4">
+
 
           <NotificationsDropdown notifications={NOTIFICATIONS} />
 

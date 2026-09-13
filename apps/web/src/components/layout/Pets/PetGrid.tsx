@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PetCard from "./PetCard";
 import PetBookingModal from "./PetBookingModal";
-import type { Pet } from "@/components/layout/Pets/pets";
+import type { Pet } from "@repo/api";
 
 interface Props {
   pets: Pet[];

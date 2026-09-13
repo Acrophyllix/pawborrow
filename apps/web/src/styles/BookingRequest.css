@@ -1,84 +1,283 @@
 .booking-page {
-  display: flex;
-  justify-content: center;
-  padding: 60px 24px;
+  min-height: calc(100vh - 80px);
+  padding: 40px 24px;
+  background: #fafafa;
 }
 
 .booking-card {
-  display: flex;
-  gap: 40px;
-  max-width: 1100px;
   width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
 
-.booking-left,
-.booking-right {
-  flex: 1;
+/* =========================================
+   LEFT
+========================================= */
+
+.booking-left {
+  padding: 40px;
 }
 
 .booking-left h1 {
-  font-size: 28px;
-  margin-bottom: 8px;
+  margin: 0;
+  font-family: serif;
+  font-size: 30px;
+  font-weight: 500;
 }
 
 .booking-subtext {
+  margin-top: 10px;
   color: #777;
-  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.booking-pet-list {
+  margin-top: 28px;
 }
 
 .booking-pet-row {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  margin-bottom: 12px;
-  border: 2px solid transparent;
+  gap: 14px;
+
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #e5e5e5;
 }
 
 .booking-pet-row.active {
-  border-color: #f16c6c;
-  background: #fff5f5;
+  border-color: #879b7b;
+  background: #f7faf5;
 }
 
 .booking-pet-avatar {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
+
   border-radius: 50%;
   object-fit: cover;
 }
 
+/* =========================================
+   CALENDAR
+========================================= */
+
+.booking-calendar-section {
+  margin-top: 35px;
+}
+
+.booking-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 16px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.calendar {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 18px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 18px;
+  background: white;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 18px;
+}
+
+.calendar-month {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.calendar-nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  cursor: pointer;
+}
+
+.calendar-nav-button:hover {
+  background: #f1f1f1;
+}
+
+.calendar-weekdays,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-weekday {
+  text-align: center;
+
+  margin-bottom: 8px;
+
+  font-size: 11px;
+  color: #999;
+  font-weight: 600;
+}
+
+.calendar-day {
+  width: 36px;
+  height: 36px;
+
+  margin: 2px auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.calendar-day:hover:not(.disabled) {
+  background: #f0f5ed;
+}
+
+.calendar-day.today {
+  font-weight: 700;
+  border: 1px solid #879b7b;
+}
+
+.calendar-day.selected {
+  background: #879b7b;
+  color: white;
+}
+
+.calendar-day.selected.today {
+  border: none;
+}
+
+.calendar-day.disabled {
+  color: #d0d0d0;
+  cursor: not-allowed;
+}
+
+.calendar-empty {
+  width: 36px;
+  height: 36px;
+  margin: 2px auto;
+}
+
+.selected-date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 14px;
+  padding: 12px 14px;
+
+  border-radius: 12px;
+
+  background: #f7faf5;
+
+  font-size: 12px;
+}
+
+.selected-date span {
+  color: #777;
+}
+
+.selected-date strong {
+  color: #4d6044;
+}
+
+/* =========================================
+   RIGHT
+========================================= */
+
 .booking-right {
-  background: #fafafa;
-  border-radius: 16px;
-  padding: 24px;
+  padding: 40px;
+
+  background: #fcfcfc;
+}
+
+.booking-form-title {
+  margin-bottom: 24px;
+
+  font-family: serif;
+  font-size: 25px;
+  font-weight: 500;
 }
 
 .booking-form-row {
-  display: flex;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
 }
 
 .booking-field {
-  flex: 1;
-  margin-bottom: 16px;
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 18px;
 }
 
 .booking-field label {
-  font-size: 13px;
-  margin-bottom: 6px;
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 12px;
   font-weight: 600;
+  text-transform: uppercase;
+  color: #333;
 }
 
 .booking-field input,
 .booking-field textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
   border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px 12px;
+  border-radius: 12px;
+
+  background: white;
+
+  padding: 12px 14px;
+
   font-size: 14px;
+
+  outline: none;
+}
+
+.booking-field input {
+  height: 46px;
 }
 
 .booking-field textarea {
@@ -86,71 +285,157 @@
   resize: vertical;
 }
 
-.booking-confirm-btn {
-  background: #f16c6c;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 20px;
-  font-weight: 600;
-  cursor: pointer;
+.booking-field input:focus,
+.booking-field textarea:focus {
+  border-color: #879b7b;
+}
+
+/* =========================================
+   DAYS
+========================================= */
+
+.days-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   width: 100%;
+
+  height: 46px;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+
+  background: white;
+
+  overflow: hidden;
 }
 
-.booking-confirm-btn:hover {
-  background: #e05a5a;
-}
-.payment-info-list {
-  margin-bottom: 24px;
-}
+.days-selector button {
+  width: 50px;
+  height: 100%;
 
-.payment-info-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-  font-weight: 600;
-  font-size: 14px;
-}
+  border: none;
+  background: transparent;
 
-.payment-info-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #fdeceb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  flex-shrink: 0;
-}
+  font-size: 20px;
 
-.payment-method-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.payment-method-row {
-  padding: 14px 16px;
-  border-radius: 10px;
-  border: 2px solid #eee;
   cursor: pointer;
+}
+
+.days-selector button:hover:not(:disabled) {
+  background: #f0f5ed;
+}
+
+.days-selector button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.days-selector span {
+  font-size: 14px;
   font-weight: 500;
 }
 
-.payment-method-row.active {
-  border-color: #f16c6c;
-  background: #fff5f5;
+/* =========================================
+   SUMMARY
+========================================= */
+
+.booking-summary {
+  margin: 10px 0 22px;
+
+  padding: 16px;
+
+  border-radius: 14px;
+
+  background: #f5f7f3;
 }
-.payment-info-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #f16c6c;
-  color: white;
+
+.booking-summary-row {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  justify-content: space-between;
+
+  padding: 7px 0;
+
+  font-size: 13px;
+}
+
+.booking-summary-row span {
+  color: #777;
+}
+
+.booking-summary-row strong {
+  color: #333;
+}
+
+.booking-summary-row.total {
+  margin-top: 8px;
+  padding-top: 14px;
+
+  border-top: 1px solid #ddd;
+
+  font-size: 16px;
+}
+
+.booking-summary-row.total strong {
+  color: #708464;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.booking-confirm-btn {
+  width: 100%;
+  height: 50px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #879b7b;
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.booking-confirm-btn:hover {
+  background: #748a68;
+}
+
+.booking-confirm-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+  .booking-card {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-left,
+  .booking-right {
+    padding: 28px 22px;
+  }
+}
+
+@media (max-width: 500px) {
+  .booking-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-left h1 {
+    font-size: 25px;
+  }
+
+  .calendar {
+    padding: 12px;
+  }
 }
