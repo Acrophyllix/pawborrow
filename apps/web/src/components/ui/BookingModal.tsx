@@ -8,7 +8,7 @@ export default function BookingModal() {
     <>
       {showBookingNotice && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-5 backdrop-blur-[2px]">
-          <div className="relative w-full max-w-[500px] overflow-hidden rounded-3xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
+          <div className="relative w-full max-w-125 overflow-hidden rounded-3xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
             <button
               type="button"
               onClick={() => setShowBookingNotice(false)}

@@ -19,33 +19,6 @@ type PhotoTileProps = {
   className?: string;
 };
 
-const ITEMS = [
-  {
-    name: "Food Bowl",
-    note: "Included with every borrow",
-    tone: "sand" as const,
-    image: "/images/included-bowl.jpg",
-  },
-  {
-    name: "Cozy Bed",
-    note: "Included with every borrow",
-    tone: "peach" as const,
-    image: "/images/included-bed.jpg",
-  },
-  {
-    name: "Leash & Collar",
-    note: "For dogs and walks",
-    tone: "coral" as const,
-    image: "/images/included-leash.jpg",
-  },
-  {
-    name: "Starter Food Pack",
-    note: "₱199 add-on",
-    tone: "sage" as const,
-    image: "/images/included-food.jpg",
-  },
-];
-
 const PETS = [
   {
     name: "Milo",
@@ -280,58 +253,42 @@ function SecondaryHero() {
         <span className="text-gray-900"> does it Work?</span>
       </h2>
       <p className="text-center text-sm sm:text-base font-inter text-[#696969] mb-6"></p>
-      <div className="">
+
+      <div className="container px-0 my-16">
         <div className="flex flex-wrap justify-center gap-8">
-          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-[250px] h-[230px] md:w-[300px] md:h-[280px] bg-white rounded-3xl font-inter">
+          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-62.5 h-57.5 md:w-75 md:h-70 bg-white rounded-3xl font-inter">
             <MapPin size={36} className="text-froly-300 mt-2" />
             <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">Pick a Buddy</h3>
             <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Choose the perfect companion for your needs.</p>
           </div>
-          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-[250px] h-[230px] md:w-[300px] md:h-[280px] bg-white rounded-3xl font-inter">
+          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-62.5 h-57.5 md:w-75 md:h-70 bg-white rounded-3xl font-inter">
              <CalendarDays size={36} className="text-froly-300 mt-2" />
             <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">Choose your Dates</h3>
             <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Choose the perfect companion for your needs.</p>
           </div>
-          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-[250px] h-[230px] md:w-[300px] md:h-[280px] bg-white rounded-3xl font-inter">
+          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-62.5 h-57.5 md:w-75 md:h-70 bg-white rounded-3xl font-inter">
              <PawPrint size={36} className="text-froly-300 mt-2" />
             <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">We handle the rest</h3>
             <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Food, leash, bed, and care instructions included. Return them when your time's up</p>
           </div>
         </div>
       </div>
+
+
+      <div className="container px-0 my-10 text-center">
+        <h1 className="text-1xl xs:text-4xl lg:text-5xl text-froly-400 tracking-tighter gap-2 font-bold text-center mb-2 flex flex-row items-center justify-center">
+          Why
+          <span className="text-black">choose</span>
+        </h1>
+         <h3 className=" hidden md:block font-bold text-2xl md:text-3xl text-background mt-3">
+          With the most fluffy poodles, and clingy cats you should get your fair share of cuddles at PawBorrow.
+         </h3>
+         <p className="text-justify sm:text-center text-sm sm:text-base font-inter text-[#696969] mt-3"></p>
+      </div>
     </section>
   );
 }
 
-
-{/* 
-function Included() {
-  return (
-    <section className="section included">
-      <h2>What comes with every borrow</h2>
-
-      <div className="included__grid">
-        {ITEMS.map((item) => (
-          <div className="item-card" key={item.name}>
-            <PhotoTile
-              src={item.image}
-              alt={item.name}
-              tone={item.tone}
-              className="item-card__image"
-            />
-            <div className="item-card__meta">
-              <div>
-                <h3>{item.name}</h3>
-                <p>{item.note}</p>
-              </div>
-              <button aria-label={`Save ${item.name}`}>♥</button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}*/}
 
 function MobileApp() {
   return (

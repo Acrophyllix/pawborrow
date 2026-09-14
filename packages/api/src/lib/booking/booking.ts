@@ -1,4 +1,4 @@
-import { supabase } from "./supabaseClient";
+import { supabase } from "../supabaseClient";
 
 export type CreateBookingInput = {
   pet_id: number;
@@ -6,6 +6,11 @@ export type CreateBookingInput = {
   time_slot: string;
   duration_minutes: number;
 };
+export type BookingStatus =
+  | "pending"
+  | "confirmed"
+  | "cancelled"
+  | "completed";
 
 export type Booking = {
   booking_id: number;
@@ -102,4 +107,92 @@ export async function getBookings(): Promise<Booking[]> {
       ? booking.pet[0] ?? null
       : booking.pet ?? null,
   }));
+}
+
+
+export type AdminBooking = {
+  booking_id: number;
+  reservation_date: string;
+  time_slot: string | null;
+  duration_minutes: number;
+  status: string;
+  created_at: string;
+
+  pet: {
+    pet_id: number;
+    name: string;
+    breed: string | null;
+    image_url: string | null;
+  } | null;
+
+  user_profile: {
+    id: string;
+    first_name: string | null;
+    last_name: string | null;
+    email: string;
+  } | null;
+};
+
+export async function getAdminBookings(): Promise<AdminBooking[]> {
+  const { data, error } = await supabase
+    .from("booking")
+    .select(`
+      booking_id,
+      reservation_date,
+      time_slot,
+      duration_minutes,
+      status,
+      created_at,
+
+      pet (
+        pet_id,
+        name,
+        breed,
+        image_url
+      ),
+
+      user_profiles (
+        id,
+        first_name,
+        last_name,
+        email
+      )
+    `)
+    .order("reservation_date", { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []).map((booking) => ({
+    ...booking,
+
+    pet: Array.isArray(booking.pet)
+      ? booking.pet[0] ?? null
+      : booking.pet ?? null,
+
+    user_profile: Array.isArray(booking.user_profiles)
+      ? booking.user_profiles[0] ?? null
+      : booking.user_profiles ?? null,
+  }));
+}
+
+export async function updateBookingStatus(
+  bookingId: number,
+  status: BookingStatus
+) {
+  const { data, error } = await supabase
+    .from("booking")
+    .update({
+      status,
+    })
+    .eq("booking_id", bookingId)
+    .select()
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
 }

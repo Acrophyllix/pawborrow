@@ -5,14 +5,12 @@ import { Link, useLocation } from 'react-router-dom';
 const links = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/' },
   { label: 'Users', icon: Users, to: '/users' },
-  { label: 'Appointments', icon: CalendarClock, to: '/appointments' },
-  { label: 'Necessities', icon: Boxes, to: '/necessities' },
   { label: 'Pets', icon: PawPrint, to: '/pets' },
-  { label: 'Order', icon: ClipboardList, to: '/order' },
+  { label: 'Bookings', icon: CalendarClock, to: '/bookings' },
   { label: 'Reviews', icon: Star, to: '/reviews' },
 ];
 
-export default function Navbar() {
+export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const { pathname } = useLocation();
 

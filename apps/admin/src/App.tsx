@@ -1,12 +1,12 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 import ProtectedRoute from "./router/ProtectedRoute";
 
 import Login from "./pages/login";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
-import Appointments from "./pages/Appointments";
+import Bookings from "./pages/Bookings";
 import Necessities from "./pages/Necessities";
 import Pets from "./pages/Pets";
 import Order from "./pages/Order";
@@ -16,15 +16,13 @@ import './global.css'
 function App() {
   return (
     <Routes>
-      {/* Public route */}
       <Route path="/login" element={<Login />} />
 
-      {/* Protected admin routes */}
       <Route element={<ProtectedRoute />}>
         <Route
           element={
             <div className="flex min-h-screen">
-              <Navbar />
+              <Sidebar />
 
               <main className="flex-1">
                 <Outlet />
@@ -35,8 +33,8 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />
           <Route
-            path="/appointments"
-            element={<Appointments />}
+            path="/bookings"
+            element={<Bookings/>}
           />
           <Route
             path="/necessities"
@@ -48,7 +46,6 @@ function App() {
         </Route>
       </Route>
 
-      {/* Unauthorized */}
       <Route
         path="/unauthorized"
         element={
