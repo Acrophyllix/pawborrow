@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
-import type { Pet } from "@/components/layout/Pets/pets";
+import type { Pet } from "@repo/api";
 
 interface Props {
   pet: Pet;
@@ -13,7 +13,10 @@ export default function PetCard({ pet, onSelect }: Props) {
   return (
     <div className="pet-card" onClick={() => onSelect(pet)}>
       <div className="pet-card-image">
-        <img src={pet.image} alt={pet.name} />
+         <img
+          src={pet.image ?? "/placeholder-pet.jpg"}
+          alt={pet.name}
+        />
         <button
           className={`pet-card-heart ${liked ? "liked" : ""}`}
           aria-label={liked ? "Remove from favorites" : "Add to favorites"}

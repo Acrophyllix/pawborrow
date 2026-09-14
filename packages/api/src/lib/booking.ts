@@ -4,12 +4,10 @@ export type CreateBookingInput = {
   pet_id: number;
   reservation_date: string;
   time_slot: string;
-  duration_hours: number;
+  duration_minutes: number;
 };
 
-export async function createBooking(
-  input: CreateBookingInput
-) {
+export async function createBooking(input: CreateBookingInput) {
   const {
     data: { user },
     error: userError,
@@ -20,9 +18,14 @@ export async function createBooking(
   }
 
   if (!user) {
-    throw new Error(
-      "You must be signed in to book a pet."
-    );
+    throw new Error("You must be signed in to book a pet.");
+  }
+
+  if (
+    input.duration_minutes < 60 ||
+    input.duration_minutes % 15 !== 0
+  ) {
+    throw new Error("Invalid booking duration.");
   }
 
   const { data, error } = await supabase
@@ -32,7 +35,7 @@ export async function createBooking(
       pet_id: input.pet_id,
       reservation_date: input.reservation_date,
       time_slot: input.time_slot,
-      duration_hours: input.duration_hours,
+      duration_minutes: input.duration_minutes,
     })
     .select()
     .single();
