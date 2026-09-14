@@ -93,13 +93,6 @@ const CATEGORIES = [
     filterCategory: "Dog",
   },
   {
-    name: "Guinea Pigs",
-    count: "10 companions",
-    tone: "sage" as const,
-    image: "/images/category-guinea-pigs.jpg",
-    filterCategory: "Guinea Pig",
-  },
-  {
     name: "Rabbits",
     count: "3 companions",
     tone: "sand" as const,

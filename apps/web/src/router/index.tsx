@@ -13,6 +13,7 @@ import Verify from "@/pages/Verify";
 import Profile from "@/pages/Profile";
 import BookingRequest from "@/pages/BookingRequest";
 import SelectPaymentMethod from "@/pages/Payment";
+import Review from "@/pages/Review";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
   { path: "/verify", element: <Verify /> },
   { path: "/favorites", element: <LikedPets /> },
   { path: "/profile", element: <Profile /> },
+  { path: "/review/:bookingId", element: <Review /> },
 ]);
 
 export default router;
