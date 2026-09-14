@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { IonContent, IonPage, IonIcon } from '@ionic/react';
 import { chevronBackOutline, calendarOutline, locationOutline } from 'ionicons/icons';
 import { pets } from '../data/pets';
@@ -9,6 +9,7 @@ import '../style/PetDetails.css';
 const PetDetails = () => {
   const { petId } = useParams<{ petId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const pet = pets.find((p) => p.id === petId);
 
   const [selectedDay, setSelectedDay] = useState(pet?.availableDays[2]?.date ?? '');
@@ -29,26 +30,27 @@ const PetDetails = () => {
   }
 
   const handleBookNow = () => {
-  const dayInfo = pet.availableDays.find((d) => d.date === selectedDay);
-  navigate('/booking-review', {
-    state: {
-      type: 'pet',
-      category: 'Cat',
-      name: pet.name,
-      subtitle: pet.breedLabel,
-      detail: `Age: ${pet.age}`,
-      photo: pet.photo,
-      date: dayInfo ? `${dayInfo.day}, ${dayInfo.date} ${pet.availableMonth}` : pet.availableMonth,
-      time: selectedTime,
-    },
-  });
-};
+    const dayInfo = pet.availableDays.find((d) => d.date === selectedDay);
+    navigate('/booking-review', {
+      state: {
+        type: 'pet',
+        category: pet.category,
+        name: pet.name,
+        subtitle: pet.breed,
+        detail: `Age: ${pet.age}`,
+        photo: pet.image,
+        date: dayInfo ? `${dayInfo.day}, ${dayInfo.date} ${pet.availableMonth}` : pet.availableMonth,
+        time: selectedTime,
+        returnTo: location.pathname,
+      },
+    });
+  };
 
   return (
     <IonPage>
       <IonContent fullscreen className="pet-details-content">
         <div className="pet-details-photo-wrap">
-          <img className="pet-details-photo" src={pet.photo} alt={pet.name} />
+          <img className="pet-details-photo" src={pet.image} alt={pet.name} />
           <button className="pet-details-back" aria-label="Go back" onClick={() => navigate(-1)}>
             <IonIcon icon={chevronBackOutline} />
           </button>
@@ -70,7 +72,7 @@ const PetDetails = () => {
             </div>
             <div className="pet-details-stat">
               <p className="pet-details-stat-label">Breed</p>
-              <p className="pet-details-stat-value">{pet.breedLabel}</p>
+              <p className="pet-details-stat-value">{pet.breed}</p>
             </div>
           </div>
 
