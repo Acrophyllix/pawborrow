@@ -10,3 +10,4 @@ export * from "./lib/usePets";
 export * from "./lib/payment";
 export * from "./lib/category";
 export * from "./lib/useCategory";
+export * from "./lib/useBookings";

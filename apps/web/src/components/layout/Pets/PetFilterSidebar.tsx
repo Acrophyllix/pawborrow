@@ -84,7 +84,6 @@ export default function PetsFilterSidebar({
   return (
     <aside className="pets-filter-sidebar">
 
-      {/* CATEGORY */}
 
       <CheckboxFilterGroup
         title="Filter by categories"
@@ -93,7 +92,6 @@ export default function PetsFilterSidebar({
         onSelect={onSelectCategory}
       />
 
-      {/* BREED */}
 
       <CheckboxFilterGroup
         title={breedFilterTitle}
@@ -102,7 +100,6 @@ export default function PetsFilterSidebar({
         onSelect={onSelectBreed}
       />
 
-      {/* PERSONALITY */}
 
       {showPersonality && (
         <div className="filter-group">
