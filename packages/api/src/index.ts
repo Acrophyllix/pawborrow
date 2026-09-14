@@ -11,3 +11,6 @@ export * from "./lib/payment";
 export * from "./lib/category";
 export * from "./lib/useCategory";
 export * from "./lib/useBookings";
+export * from "./lib/review";
+export * from "./lib/useCreateReview";
+export * from "./lib/useReviews";
