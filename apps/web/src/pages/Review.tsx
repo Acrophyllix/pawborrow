@@ -3,7 +3,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
-import "@/styles/ReviewPage.css";
+import "@/styles/Review.css";
 
 interface LocationState {
   booking?: {

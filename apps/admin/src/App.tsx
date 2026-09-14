@@ -11,7 +11,7 @@ import Necessities from "./pages/Necessities";
 import Pets from "./pages/Pets";
 import Order from "./pages/Order";
 import Reviews from "./pages/Reviews";
-import './index.css'
+import './global.css'
 
 function App() {
   return (

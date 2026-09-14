@@ -22,10 +22,10 @@ export default function ContactUs() {
           </h1>
           <p className="contact__hero-sub">
             Whether you're booking your first companion or checking on an
-            existing reservation, our team in Quezon City is ready to help —
+            existing reservation, our team in Quezon City is ready to help 
             send us a message or drop by during business hours.
           </p>
-          <a href="#contact-form" className="btn btn--dark">Send a Message</a>
+          <a href="#contact-form" className="rounded-full bg-froly-400 py-3.5 px-6.5 font-medium text-white">Send a Message</a>
         </div>
         <div className="contact__hero-art">
           <div className="hero__blob" aria-hidden="true" />

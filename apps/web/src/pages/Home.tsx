@@ -4,6 +4,7 @@ import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import "@/styles/Home.css";
 import "@/styles/Button.css";
+import { MapPin, CalendarDays, PawPrint } from "lucide-react";
 
 type PawTileProps = {
   tone?: "coral" | "peach" | "sage" | "sand" | "ink";
@@ -93,6 +94,13 @@ const CATEGORIES = [
     filterCategory: "Dog",
   },
   {
+    name: "Guinea Pigs",
+    count: "10 companions",
+    tone: "sage" as const,
+    image: "/images/category-guinea-pigs.jpg",
+    filterCategory: "Guinea Pig",
+  },
+  {
     name: "Rabbits",
     count: "3 companions",
     tone: "sand" as const,
@@ -109,7 +117,6 @@ export default function Home() {
       <Categories />
       <FeaturedPets />
       <SecondaryHero />
-      <Included />
       <MobileApp />
       <Footer />
     </>
@@ -119,7 +126,11 @@ export default function Home() {
 function PawTile({ tone = "sand", label, className = "" }: PawTileProps) {
   const { bg, paw } = TONES[tone];
   return (
-    <div className={`paw-tile ${className}`} style={{ background: bg }} aria-hidden={label ? undefined : true}>
+    <div
+      className={`paw-tile ${className}`}
+      style={{ background: bg }}
+      aria-hidden={label ? undefined : true}
+    >
       <svg viewBox="0 0 64 64" className="paw-tile__icon" style={{ fill: paw }}>
         <ellipse cx="32" cy="40" rx="15" ry="12" />
         <ellipse cx="14" cy="24" rx="6" ry="8" />
@@ -137,17 +148,20 @@ function Hero() {
     <section id="top" className="hero">
       <div className="hero__text">
         <p className="eyebrow">PawBorrow &middot; Quezon City</p>
-        <h1> Pet companionship, <br/> borrowed <span>your way.</span></h1>
+        <h1>
+          {" "}
+          Pet companionship, <br /> borrowed <span>your way.</span>
+        </h1>
         <p className="hero__sub">
           Not ready to commit to full-time pet ownership? Borrow a cat, dog, or
           guinea pig for a day, a weekend, or however long you need the company.
         </p>
         <div className="hero__actions">
-          <Link to="/pets" className="btn btn--dark">
+          <Link
+            to="/pets"
+            className="rounded-full bg-froly-400 py-3.5 px-6.5 font-medium text-white"
+          >
             Browse Pets
-          </Link>
-          <Link to="#how-it-works" className="btn btn--ghost">
-            How It Works
           </Link>
         </div>
       </div>
@@ -169,10 +183,6 @@ function Categories() {
     <section id="browse" className="section categories">
       <div className="section__head">
         <h2>Browse by companion</h2>
-        <div className="section__arrows" aria-hidden="true">
-          <button aria-label="Previous">‹</button>
-          <button aria-label="Next">›</button>
-        </div>
       </div>
 
       <div className="categories__grid">
@@ -264,31 +274,37 @@ function FeaturedPets() {
 
 function SecondaryHero() {
   return (
-    <section id="how-it-works" className="section-hero">
-      <div className="section-hero__art">
-        <div className="section-hero__blob" aria-hidden="true" />
-        <img
-          src="/images/secondary-hero.png"
-          alt="Companion pets at home"
-          className="section-hero__cutout"
-        />
-      </div>
-      <div className="section-hero__text">
-        <p className="eyebrow eyebrow--dark">How It Works</p>
-        <h2>The smarter way to share your home with a pet</h2>
-        <p>
-          Pick a companion, choose your dates, and we handle the rest — food
-          bowl, leash, bed, and care instructions included. Return them when
-          your time's up.
-        </p>
-        <Link to="#browse" className="btn btn--dark">
-          Learn More
-        </Link>
+    <section className="max-w-6xl mx-auto">
+      <h2 className="text-3xl xs:text-4xl lg:text-5xl text-froly-400 tracking-tighter font-bold text-center mb-2">
+        <span className="text-brand">How</span>
+        <span className="text-gray-900"> does it Work?</span>
+      </h2>
+      <p className="text-center text-sm sm:text-base font-inter text-[#696969] mb-6"></p>
+      <div className="">
+        <div className="flex flex-wrap justify-center gap-8">
+          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-[250px] h-[230px] md:w-[300px] md:h-[280px] bg-white rounded-3xl font-inter">
+            <MapPin size={36} className="text-froly-300 mt-2" />
+            <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">Pick a Buddy</h3>
+            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Choose the perfect companion for your needs.</p>
+          </div>
+          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-[250px] h-[230px] md:w-[300px] md:h-[280px] bg-white rounded-3xl font-inter">
+             <CalendarDays size={36} className="text-froly-300 mt-2" />
+            <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">Choose your Dates</h3>
+            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Choose the perfect companion for your needs.</p>
+          </div>
+          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-[250px] h-[230px] md:w-[300px] md:h-[280px] bg-white rounded-3xl font-inter">
+             <PawPrint size={36} className="text-froly-300 mt-2" />
+            <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">We handle the rest</h3>
+            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Food, leash, bed, and care instructions included. Return them when your time's up</p>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
+
+{/* 
 function Included() {
   return (
     <section className="section included">
@@ -315,23 +331,27 @@ function Included() {
       </div>
     </section>
   );
-}
+}*/}
 
 function MobileApp() {
   return (
     <section className="mx-auto max-w-(--max-w) px-6 pt-14">
       <div className="flex flex-row items-center justify-center gap-8">
         <div className="flex">
-            <img
-              src="/images/Mobile.png"
-              alt="Mobile app preview"
-              className="mt-4 w-full max-w-sm"
-            />
+          <img
+            src="/images/Mobile.png"
+            alt="Mobile app preview"
+            className="mt-4 w-full max-w-sm"
+          />
         </div>
         <div className="flex flex-col">
           <span className="text-6xl">Download Our</span>
           <span className="text-6xl font-semibold">Mobile App</span>
-          <img src="/images/Googleplay.png" alt="Google Play Store" className="mt-4 w-full max-w-xs" />
+          <img
+            src="/images/Googleplay.png"
+            alt="Google Play Store"
+            className="mt-4 w-full max-w-xs"
+          />
         </div>
       </div>
     </section>

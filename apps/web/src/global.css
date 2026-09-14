@@ -59,6 +59,8 @@ Retrieved 2026-09-02, License - CC BY-SA 4.0
   --color-froly-800: #961e21;
   --color-froly-900: #7d1f21;
   --color-froly-950: #440b0c;
+
+  --shadow-card: 0 2px 12px 0 rgba(0, 0, 0, 0.078);
 }
 
 
