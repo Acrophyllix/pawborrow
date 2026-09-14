@@ -27,12 +27,12 @@ type PaymentState = {
 function formatTime(time: string) {
   const [hour, minute] = time.split(":").map(Number);
 
-  const date = new Date();
+  if (Number.isNaN(hour) || Number.isNaN(minute)) {
+    return "Invalid time";
+  }
 
-  date.setHours(hour);
-  date.setMinutes(minute);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
+  const date = new Date();
+  date.setHours(hour, minute, 0, 0);
 
   return date.toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -105,6 +105,9 @@ export default function Payment() {
   const paymentState: PaymentState = state;
   const pet = paymentState.pet;
 
+    console.log("Start time:", paymentState.startTime);
+  console.log("End time:", paymentState.endTime);
+
   async function handlePayment() {
     setError("");
 
@@ -133,9 +136,6 @@ export default function Payment() {
     <main className="min-h-screen bg-stone-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
 
-        {/* =========================
-            PAGE HEADER
-        ========================== */}
 
         <div className="mb-8">
           <button
@@ -158,19 +158,14 @@ export default function Payment() {
           </p>
         </div>
 
-        {/* =========================
-            MAIN CONTENT
-        ========================== */}
+
 
         <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
 
-          {/* =========================
-              LEFT COLUMN
-          ========================== */}
+
 
           <div className="space-y-6">
 
-            {/* PET CARD */}
 
             <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
 
@@ -185,7 +180,6 @@ export default function Payment() {
 
               <div className="flex flex-col gap-5 p-6 sm:flex-row">
 
-                {/* PET IMAGE */}
 
                 <div className="h-40 w-full shrink-0 overflow-hidden rounded-xl bg-stone-100 sm:h-36 sm:w-36">
                   {pet.image ? (
@@ -201,7 +195,6 @@ export default function Payment() {
                   )}
                 </div>
 
-                {/* PET INFO */}
 
                 <div className="flex-1">
                   <div className="flex flex-wrap items-start justify-between gap-3">
@@ -252,7 +245,6 @@ export default function Payment() {
               </div>
             </section>
 
-            {/* SCHEDULE */}
 
             <section className="rounded-2xl border border-stone-200 bg-white shadow-sm">
 
@@ -301,7 +293,6 @@ export default function Payment() {
               </div>
             </section>
 
-            {/* CONTACT INFORMATION */}
 
             <section className="rounded-2xl border border-stone-200 bg-white shadow-sm">
 
@@ -349,7 +340,6 @@ export default function Payment() {
               </div>
             </section>
 
-            {/* PAYMENT METHOD */}
 
             <section className="rounded-2xl border border-stone-200 bg-white shadow-sm">
 
@@ -411,9 +401,7 @@ export default function Payment() {
 
           </div>
 
-          {/* =========================
-              RIGHT COLUMN
-          ========================== */}
+
 
           <aside className="lg:sticky lg:top-6 lg:self-start">
 
@@ -427,7 +415,6 @@ export default function Payment() {
 
               <div className="space-y-4 p-6">
 
-                {/* HOURLY RATE */}
 
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-stone-500">
@@ -440,7 +427,6 @@ export default function Payment() {
                   </span>
                 </div>
 
-                {/* DURATION */}
 
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-stone-500">
@@ -471,7 +457,6 @@ export default function Payment() {
 
                 </div>
 
-                {/* TOTAL */}
 
                 <div className="mt-2 rounded-xl bg-[#442808] p-5 text-white">
 
@@ -490,7 +475,7 @@ export default function Payment() {
 
                 </div>
 
-                {/* NOTICE */}
+
 
                 <div className="rounded-xl bg-amber-50 p-4">
                   <p className="text-xs leading-5 text-amber-800">
@@ -499,7 +484,6 @@ export default function Payment() {
                   </p>
                 </div>
 
-                {/* ERROR */}
 
                 {error && (
                   <div className="rounded-xl border border-red-200 bg-red-50 p-4">
@@ -509,7 +493,7 @@ export default function Payment() {
                   </div>
                 )}
 
-                {/* PAY BUTTON */}
+
 
                 <button
                   type="button"
@@ -522,7 +506,6 @@ export default function Payment() {
                     : `Pay ₱${paymentState.total.toLocaleString()}`}
                 </button>
 
-                {/* BACK BUTTON */}
 
                 <button
                   type="button"

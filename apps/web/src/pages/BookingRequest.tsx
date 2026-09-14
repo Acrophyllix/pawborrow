@@ -34,7 +34,6 @@ function formatDuration(minutes: number) {
 
   return `${hours}h ${remainingMinutes}m`;
 }
-
 function calculateEndTime(
   startTime: string,
   durationMinutes: number,
@@ -43,19 +42,16 @@ function calculateEndTime(
 
   const date = new Date();
 
-  date.setHours(hour);
-  date.setMinutes(minute);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
+  date.setHours(hour, minute, 0, 0);
 
   date.setMinutes(
     date.getMinutes() + durationMinutes,
   );
 
-  return date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  });
+  const endHour = String(date.getHours()).padStart(2, "0");
+  const endMinute = String(date.getMinutes()).padStart(2, "0");
+
+  return `${endHour}:${endMinute}`;
 }
 
 function formatTime(time: string) {
@@ -71,10 +67,6 @@ export default function BookingRequest() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // =========================
-  // AUTHENTICATION
-  // =========================
-
   const {
     user,
     loading: authLoading,
@@ -85,9 +77,6 @@ export default function BookingRequest() {
     isLoading: profileLoading,
   } = useProfile();
 
-  // =========================
-  // BOOKING STATE
-  // =========================
 
   const [selectedDate, setSelectedDate] =
     useState<Date | null>(null);
@@ -95,7 +84,6 @@ export default function BookingRequest() {
   const [startTime, setStartTime] =
     useState("09:00");
 
-  // Minimum booking duration = 1 hour
   const [durationMinutes, setDurationMinutes] =
     useState(60);
 
@@ -108,16 +96,10 @@ export default function BookingRequest() {
   const [error, setError] =
     useState("");
 
-  // =========================
-  // LOCATION STATE
-  // =========================
 
   const state =
     location.state as LocationState | null;
 
-  // =========================
-  // REDIRECT IF NOT SIGNED IN
-  // =========================
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -131,9 +113,6 @@ export default function BookingRequest() {
     navigate,
   ]);
 
-  // =========================
-  // NO PET SELECTED
-  // =========================
 
   if (!state?.pet) {
     return (
@@ -168,9 +147,6 @@ export default function BookingRequest() {
     );
   }
 
-  // =========================
-  // AUTH LOADING
-  // =========================
 
   if (
     authLoading ||
@@ -189,19 +165,11 @@ export default function BookingRequest() {
     );
   }
 
-  // =========================
-  // NOT AUTHENTICATED
-  // =========================
-
   if (!user) {
     return null;
   }
 
   const pet = state.pet;
-
-  // =========================
-  // USER INFORMATION
-  // =========================
 
   const firstName =
     profile?.first_name ?? "";
@@ -214,9 +182,6 @@ export default function BookingRequest() {
     user.email ??
     "";
 
-  // =========================
-  // BOOKING CALCULATIONS
-  // =========================
 
   const hourlyRate =
     pet.hourlyRate;
@@ -230,10 +195,6 @@ export default function BookingRequest() {
       startTime,
       durationMinutes,
     );
-
-  // =========================
-  // DURATION CONTROLS
-  // =========================
 
   function handleDecreaseDuration() {
     setDurationMinutes(
@@ -254,14 +215,10 @@ export default function BookingRequest() {
     );
   }
 
-  // =========================
-  // CREATE BOOKING
-  // =========================
 
   async function handleBooking() {
     setError("");
 
-    // Make sure user is authenticated
     if (!user) {
       setError(
         "You must be signed in to make a booking.",
@@ -271,7 +228,6 @@ export default function BookingRequest() {
       return;
     }
 
-    // Validate date
     if (!selectedDate) {
       setError(
         "Please select a reservation date.",
@@ -280,7 +236,6 @@ export default function BookingRequest() {
       return;
     }
 
-    // Validate profile information
     if (!firstName.trim()) {
       setError(
         "Your account is missing your first name. Please update your profile.",
@@ -305,8 +260,6 @@ export default function BookingRequest() {
       return;
     }
 
-    // Minimum = 1 hour
-    // Additional time = 15 minute increments
     if (
       durationMinutes < 60 ||
       durationMinutes % 15 !== 0
@@ -331,9 +284,6 @@ export default function BookingRequest() {
             durationMinutes,
         });
 
-      // =========================
-      // GO TO PAYMENT
-      // =========================
 
       navigate("/payment", {
         state: {
@@ -375,18 +325,11 @@ export default function BookingRequest() {
     }
   }
 
-  // =========================
-  // UI
-  // =========================
 
   return (
     <div className="min-h-[calc(100vh-80px)] bg-[#fafafa] px-6 py-10">
 
       <div className="mx-auto grid w-full max-w-[1100px] overflow-hidden rounded-3xl bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] md:grid-cols-2">
-
-        {/* =====================================================
-            LEFT SIDE
-        ====================================================== */}
 
         <section className="p-10 max-md:p-7">
 
@@ -398,8 +341,6 @@ export default function BookingRequest() {
             Choose your preferred date and booking
             duration for your pet companion.
           </p>
-
-          {/* PET */}
 
           <div className="mt-7 rounded-[14px] border border-[#e5e5e5] p-3.5">
 
@@ -438,12 +379,9 @@ export default function BookingRequest() {
 
           </div>
 
-          {/* DATE */}
-
           <div className="mt-9">
 
             <div className="mb-4 flex items-center gap-2 text-[15px] font-semibold">
-              📅
               <span>
                 Reservation Date
               </span>
@@ -506,12 +444,9 @@ export default function BookingRequest() {
 
           </div>
 
-          {/* ACCOUNT INFORMATION */}
-
           <div className="mt-9">
 
             <div className="mb-4 flex items-center gap-2 text-[15px] font-semibold">
-              👤
               <span>
                 Your Information
               </span>
@@ -564,17 +499,11 @@ export default function BookingRequest() {
 
         </section>
 
-        {/* =====================================================
-            RIGHT SIDE
-        ====================================================== */}
-
         <section className="bg-[#fcfcfc] p-10 max-md:p-7">
 
           <h2 className="mb-6 font-serif text-[25px] font-medium">
             Booking Details
           </h2>
-
-          {/* START TIME */}
 
           <div className="mb-[18px]">
 
@@ -602,7 +531,6 @@ export default function BookingRequest() {
 
           </div>
 
-          {/* DURATION */}
 
           <div className="mb-[18px]">
 
@@ -652,8 +580,6 @@ export default function BookingRequest() {
 
           </div>
 
-          {/* ADDITIONAL MESSAGE */}
-
           <h2 className="mb-6 mt-8 font-serif text-[25px] font-medium">
             Additional Information
           </h2>
@@ -684,8 +610,6 @@ export default function BookingRequest() {
             />
 
           </div>
-
-          {/* SUMMARY */}
 
           <div className="my-2.5 mb-[22px] rounded-[14px] bg-[#f5f7f3] p-4">
 
@@ -742,8 +666,6 @@ export default function BookingRequest() {
 
             </div>
 
-            {/* CALCULATION */}
-
             <div className="mt-2 flex justify-between border-t border-[#ddd] pt-3 text-[13px]">
 
               <span className="text-gray-500">
@@ -759,7 +681,6 @@ export default function BookingRequest() {
 
             </div>
 
-            {/* TOTAL */}
 
             <div className="mt-1 flex justify-between border-t border-[#ddd] pt-3.5 text-base">
 
@@ -776,15 +697,12 @@ export default function BookingRequest() {
 
           </div>
 
-          {/* ERROR */}
-
           {error && (
             <div className="mb-4 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm leading-5 text-red-600">
               {error}
             </div>
           )}
 
-          {/* ACTIONS */}
 
           <div className="flex gap-3">
 
@@ -815,8 +733,6 @@ export default function BookingRequest() {
           </div>
 
         </section>
-
-        {/* BOOKING MODAL */}
 
         <BookingModal />
 

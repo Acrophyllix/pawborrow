@@ -2,6 +2,15 @@
 
 @import "tailwindcss";
 
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+
 /*
 Source - https://stackoverflow.com/a/79650025
 Posted by rozsazoltan, modified by community. See post 'Timeline' for change history
