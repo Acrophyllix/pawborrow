@@ -253,7 +253,7 @@ export default function Bookings() {
     );
   }
 
-  function handleStatusChange(status: "confirmed" | "cancelled") {
+  function handleStatusChange(status: "confirmed" | "cancelled" | "completed") {
     if (!selected) {
       return;
     }
@@ -650,14 +650,26 @@ export default function Bookings() {
               </p>
             </div>
 
-            <div className="flex gap-2 pt-2">
-              <button
-                onClick={() => handleStatusChange("confirmed")}
-                disabled={updateBooking.isPending}
-                className="flex-1 rounded-lg bg-emerald-500 py-2 text-sm font-semibold text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {updateBooking.isPending ? "Updating..." : "Approve"}
-              </button>
+                        <div className="flex gap-2 pt-2">
+              {selected.status.toLowerCase() === "pending" && (
+                <button
+                  onClick={() => handleStatusChange("confirmed")}
+                  disabled={updateBooking.isPending}
+                  className="flex-1 rounded-lg bg-emerald-500 py-2 text-sm font-semibold text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {updateBooking.isPending ? "Updating..." : "Approve"}
+                </button>
+              )}
+
+              {selected.status.toLowerCase() === "confirmed" && (
+                <button
+                  onClick={() => handleStatusChange("completed")}
+                  disabled={updateBooking.isPending}
+                  className="flex-1 rounded-lg bg-gray-700 py-2 text-sm font-semibold text-white hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {updateBooking.isPending ? "Updating..." : "Mark Completed"}
+                </button>
+              )}
 
               <button
                 onClick={() => handleOpenReschedule(selected)}
@@ -669,13 +681,16 @@ export default function Bookings() {
                 Reschedule
               </button>
 
-              <button
-                onClick={() => handleStatusChange("cancelled")}
-                disabled={updateBooking.isPending}
-                className="flex-1 rounded-lg bg-rose-500 py-2 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {updateBooking.isPending ? "Updating..." : "Cancel"}
-              </button>
+              {selected.status.toLowerCase() !== "cancelled" &&
+                selected.status.toLowerCase() !== "completed" && (
+                  <button
+                    onClick={() => handleStatusChange("cancelled")}
+                    disabled={updateBooking.isPending}
+                    className="flex-1 rounded-lg bg-rose-500 py-2 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {updateBooking.isPending ? "Updating..." : "Cancel"}
+                  </button>
+                )}
             </div>
           </div>
         )}

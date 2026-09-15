@@ -5,5 +5,8 @@ export function useReviews() {
   return useQuery({
     queryKey: ["admin-reviews"],
     queryFn: getAllReviews,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+    refetchInterval: 5000,
   });
 }
