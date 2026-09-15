@@ -72,3 +72,25 @@ export async function updateMyProfile(
 
   return data;
 }
+
+export async function getAllProfiles(): Promise<UserProfile[]> {
+  const { data, error } = await supabase
+    .from("user_profiles")
+    .select(`
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      role,
+      is_active,
+      created_at,
+      avatar_url
+    `);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
