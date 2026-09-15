@@ -91,6 +91,7 @@ export default function Home() {
       <FeaturedPets />
       <SecondaryHero />
       <MobileApp />
+      <FAQS />
       <Footer />
     </>
   );
@@ -259,12 +260,12 @@ function SecondaryHero() {
           <div className="shadow-xl flex flex-col items-center px-4 py-6 w-62.5 h-57.5 md:w-75 md:h-70 bg-white rounded-3xl font-inter">
             <MapPin size={36} className="text-froly-300 mt-2" />
             <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">Pick a Buddy</h3>
-            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Choose the perfect companion for your needs.</p>
+            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Pick the perfect companion for your needs.</p>
           </div>
           <div className="shadow-xl flex flex-col items-center px-4 py-6 w-62.5 h-57.5 md:w-75 md:h-70 bg-white rounded-3xl font-inter">
              <CalendarDays size={36} className="text-froly-300 mt-2" />
             <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">Choose your Dates</h3>
-            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Choose the perfect companion for your needs.</p>
+            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Choose the dates you want a buddy for.</p>
           </div>
           <div className="shadow-xl flex flex-col items-center px-4 py-6 w-62.5 h-57.5 md:w-75 md:h-70 bg-white rounded-3xl font-inter">
              <PawPrint size={36} className="text-froly-300 mt-2" />
@@ -279,11 +280,23 @@ function SecondaryHero() {
         <h1 className="text-1xl xs:text-4xl lg:text-5xl text-froly-400 tracking-tighter gap-2 font-bold text-center mb-2 flex flex-row items-center justify-center">
           Why
           <span className="text-black">choose</span>
+          <img src="/images/PawLogo2.png" alt="icon" />
         </h1>
          <h3 className=" hidden md:block font-bold text-2xl md:text-3xl text-background mt-3">
-          With the most fluffy poodles, and clingy cats you should get your fair share of cuddles at PawBorrow.
+          With the most fluffy poodles, and clingy cats 
+          <br className="hidden lg:block" />
+          you should get your fair share of cuddles at PawBorrow.
          </h3>
-         <p className="text-justify sm:text-center text-sm sm:text-base font-inter text-[#696969] mt-3"></p>
+         <p className="text-justify sm:text-center text-sm sm:text-base font-inter text-[#696969] mt-3">
+          At PawBorrow, we believe everyone deserves the joy of animal companionship without the lifelong commitment. 
+          <br className="hidden lg:block" />
+          Whether you're seeking emotional support, a moment of relaxation, or therapeutic comfort,
+          <br className="hidden lg:block" />
+          our lovingly cared-for fleet of cats, dogs, and guinea pigs is ready to brighten your day. 
+          <br className="hidden lg:block" />
+          As a proudly Quezon City-based service, we make companionship effortless.
+          <br className="hidden lg:block" />
+          </p>
       </div>
     </section>
   );
@@ -302,8 +315,20 @@ function MobileApp() {
           />
         </div>
         <div className="flex flex-col">
-          <span className="text-6xl">Download Our</span>
-          <span className="text-6xl font-semibold">Mobile App</span>
+          <h2 className="text-3xl xs:text-4xl lg:text-5xl font-bold">
+            Meet your {""}  
+            <span className="text-froly-400">
+              PawPal
+            </span>
+           {""} on mobile.
+          </h2>
+          <p className="text-background font-inter   text-sm sm:text-base font-normal mt-6 leading-5 sm:leading-7">
+            Download our app for easy access to our pet companion services.
+            <br/>
+            You can browse our adorable pawpals, book, and reserve.
+            <br/>
+            Available both on Android and iOS.
+          </p>
           <img
             src="/images/Googleplay.png"
             alt="Google Play Store"
@@ -312,5 +337,30 @@ function MobileApp() {
         </div>
       </div>
     </section>
+  );
+}
+
+function FAQS() {
+  return (
+    <main className="relative">
+      <div className="h-fit m-auto py-12 px-5 md:px-10 flex flex-col items-center relative become-a-host-faqs pb-32">
+        <h1 className="text-3xl xs:text-4xl lg:text-5xl text-froly-400 tracking-tighter font-bold text-center mb-2">
+          Frequently Asked Questions
+        </h1>
+        <div className="w-full max-w-200 mt-6">
+          <div className="flex flex-row w-full justify-evenly text-[#696969]">
+            <div className="w-full border-solid flex font-inter items-center justify-center py-3 font-bold text-xs sm:text-base md:text-lg cursor-pointer border-b-[3px] border-background text-background">
+              General Overview
+            </div>
+            <div className="border-b border-[#94949480] w-full border-solid flex font-inter items-center justify-center py-3 font-bold text-xs sm:text-base md:text-lg cursor-pointer">
+              Others
+            </div>
+          </div>
+          <div className="">
+            <div className="w-full font-inter text-background font-normal! mt-5 flex flex-col gap-4 text-sm min-h-75"></div>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }

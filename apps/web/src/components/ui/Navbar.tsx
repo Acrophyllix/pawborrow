@@ -1,6 +1,5 @@
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import "@/styles/Navbar.css";
-import { UserRound, Heart, Search } from "lucide-react";
 import NotificationsDropdown from "./Notifcation";
 import ProfileDropdown from "./ProfileDropdown";
 import { useAuth, useProfile, signOut } from "@repo/api";
