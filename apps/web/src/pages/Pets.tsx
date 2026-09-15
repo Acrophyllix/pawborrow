@@ -8,7 +8,13 @@ import ProductsGrid from "@/components/layout/Pets/ProductsGrid";
 import Footer from "@/components/ui/Footer";
 import Navbar from "@/components/ui/Navbar";
 
-import { usePets, useCategories } from "@repo/api";
+import {
+  usePets,
+  useCategories,
+  useLikedPets,
+  useAddLikedPet,
+  useRemoveLikedPet,
+} from "@repo/api";
 
 import {
   products,
@@ -36,6 +42,21 @@ export default function PetsPage() {
     isLoading: categoriesLoading,
     isError: categoriesError,
   } = useCategories();
+    const {
+    data: likedPets = [],
+    isLoading: likedPetsLoading,
+    error: likedPetsError,
+  } = useLikedPets();
+
+  const {
+    mutate: addLikedPet,
+    isPending: isAddingLikedPet,
+  } = useAddLikedPet();
+
+  const {
+    mutate: removeLikedPet,
+    isPending: isRemovingLikedPet,
+  } = useRemoveLikedPet();
 
   const [selectedCategory, setSelectedCategory] = useState(
     categoryFromUrl || "Cat",
@@ -47,11 +68,20 @@ export default function PetsPage() {
 
   const [page, setPage] = useState(1);
 
-  const isLoading = petsLoading || categoriesLoading;
+  const isLoading = petsLoading || categoriesLoading || likedPetsLoading;
 
   const isError = petsError || categoriesError;
 
   const isProductMode = PRODUCT_CATEGORIES.includes(selectedCategory);
+
+  const likedPetIds = useMemo(() => {
+  return new Set(
+    likedPets.map((likedPet) => Number(likedPet.pet_id))
+  );
+}, [likedPets]);
+
+const isUpdatingLike =
+  isAddingLikedPet || isRemovingLikedPet;
 
   const categoryItems = useMemo(() => {
     return categories.map((category) => ({
@@ -180,7 +210,25 @@ export default function PetsPage() {
 
     setPage(1);
   }
+  function handleToggleLike(petId: number) {
+    if (isUpdatingLike) return;
 
+    if (likedPetIds.has(petId)) {
+      removeLikedPet(petId, {
+        onError: (error) => {
+          console.error("Failed to remove liked pet:", error);
+        },
+      });
+
+      return;
+    }
+
+    addLikedPet(petId, {
+      onError: (error) => {
+        console.error("Failed to add liked pet:", error);
+      },
+    });
+  }
   if (isLoading) {
     return (
       <>
@@ -251,25 +299,36 @@ export default function PetsPage() {
           onSelectPersonality={handleSelectPersonality}
         />
 
-        {isProductMode ? (
-          <ProductsGrid
-            products={visibleProducts}
-            page={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-            totalCount={filteredProducts.length}
-            pageSize={PAGE_SIZE}
-          />
-        ) : (
-          <PetsGrid
-            pets={visiblePets}
-            page={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-            totalCount={filteredPets.length}
-            pageSize={PAGE_SIZE}
-          />
-        )}
+{likedPetsError && (
+  <p className="text-sm text-red-500">
+    {likedPetsError instanceof Error
+      ? likedPetsError.message
+      : "Failed to load liked pets."}
+  </p>
+)}
+
+{isProductMode ? (
+  <ProductsGrid
+    products={visibleProducts}
+    page={page}
+    totalPages={totalPages}
+    onPageChange={setPage}
+    totalCount={filteredProducts.length}
+    pageSize={PAGE_SIZE}
+  />
+) : (
+  <PetsGrid
+    pets={visiblePets}
+    page={page}
+    totalPages={totalPages}
+    onPageChange={setPage}
+    totalCount={filteredPets.length}
+    pageSize={PAGE_SIZE}
+    likedPetIds={likedPetIds}
+    onToggleLike={handleToggleLike}
+    isUpdatingLike={isUpdatingLike}
+  />
+)}
       </div>
 
       <Footer />
