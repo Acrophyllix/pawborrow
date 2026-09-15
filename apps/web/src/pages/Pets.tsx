@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import {
+  useSearchParams,
+  useNavigate,
+} from "react-router-dom";
 
 import PetsCategoryRow from "@/components/layout/Pets/PetsCategoryRow";
 import PetsFilterSidebar from "@/components/layout/Pets/PetFilterSidebar";
@@ -14,6 +17,7 @@ import {
   useLikedPets,
   useAddLikedPet,
   useRemoveLikedPet,
+  useAuth,
 } from "@repo/api";
 
 import {
@@ -28,6 +32,8 @@ const PAGE_SIZE = 9;
 
 export default function PetsPage() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
 
   const categoryFromUrl = searchParams.get("category");
 
@@ -42,11 +48,11 @@ export default function PetsPage() {
     isLoading: categoriesLoading,
     isError: categoriesError,
   } = useCategories();
-    const {
-    data: likedPets = [],
-    isLoading: likedPetsLoading,
-    error: likedPetsError,
-  } = useLikedPets();
+ const {
+  data: likedPets = [],
+  isLoading: likedPetsLoading,
+  error: likedPetsError,
+} = useLikedPets(Boolean(user));
 
   const {
     mutate: addLikedPet,
@@ -68,7 +74,7 @@ export default function PetsPage() {
 
   const [page, setPage] = useState(1);
 
-  const isLoading = petsLoading || categoriesLoading || likedPetsLoading;
+  const isLoading = authLoading || petsLoading || categoriesLoading || (Boolean(user) && likedPetsLoading);
 
   const isError = petsError || categoriesError;
 
@@ -211,24 +217,35 @@ const isUpdatingLike =
     setPage(1);
   }
   function handleToggleLike(petId: number) {
-    if (isUpdatingLike) return;
-
-    if (likedPetIds.has(petId)) {
-      removeLikedPet(petId, {
-        onError: (error) => {
-          console.error("Failed to remove liked pet:", error);
-        },
-      });
-
-      return;
-    }
-
-    addLikedPet(petId, {
-      onError: (error) => {
-        console.error("Failed to add liked pet:", error);
+  if (!user) {
+    navigate("/login", {
+      state: {
+        message: "Please sign in to like pets.",
+        returnTo: "/pets",
       },
     });
+
+    return;
   }
+
+  if (isUpdatingLike) return;
+
+  if (likedPetIds.has(petId)) {
+    removeLikedPet(petId, {
+      onError: (error) => {
+        console.error("Failed to remove liked pet:", error);
+      },
+    });
+
+    return;
+  }
+
+  addLikedPet(petId, {
+    onError: (error) => {
+      console.error("Failed to add liked pet:", error);
+    },
+  });
+}
   if (isLoading) {
     return (
       <>
@@ -299,7 +316,7 @@ const isUpdatingLike =
           onSelectPersonality={handleSelectPersonality}
         />
 
-{likedPetsError && (
+{user && likedPetsError && (
   <p className="text-sm text-red-500">
     {likedPetsError instanceof Error
       ? likedPetsError.message
