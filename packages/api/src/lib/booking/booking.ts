@@ -196,3 +196,39 @@ export async function updateBookingStatus(
 
   return data;
 }
+
+
+export type RescheduleBookingInput = {
+  bookingId: number;
+  reservationDate: string;
+  timeSlot: string;
+  durationMinutes: number;
+};
+
+export async function rescheduleBooking(
+  input: RescheduleBookingInput
+) {
+  if (
+    input.durationMinutes < 60 ||
+    input.durationMinutes % 15 !== 0
+  ) {
+    throw new Error(
+      "Booking duration must be at least 1 hour and use 15-minute increments."
+    );
+  }
+
+  const { data, error } = await supabase
+    .from("booking")
+    .update({
+      reservation_date: input.reservationDate,
+      time_slot: input.timeSlot,
+      duration_minutes: input.durationMinutes,
+    })
+    .eq("booking_id", input.bookingId)
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}

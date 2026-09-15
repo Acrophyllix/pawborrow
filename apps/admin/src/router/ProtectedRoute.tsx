@@ -3,18 +3,26 @@ import { useAuth, useProfile } from "@repo/api";
 
 export default function ProtectedRoute() {
   const { user, loading: authLoading } = useAuth();
+  const { data: profile, isLoading: profileLoading} = useProfile();
 
-  const {
-    data: profile,
-    isLoading: profileLoading,
-  } = useProfile();
-
-  if (authLoading || profileLoading) {
-    return <div>Loading...</div>;
+  if (authLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   if (!user) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (profileLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   if (profile?.role !== "admin") {
