@@ -1,31 +1,25 @@
 import { useNavigate } from 'react-router-dom';
 import { IonContent, IonPage, IonIcon } from '@ionic/react';
-import { chevronBackOutline, heartOutline, pawOutline, sparklesOutline } from 'ionicons/icons';
+import {
+  chevronBackOutline,
+  locationSharp,
+  pawSharp,
+  callOutline,
+  logoFacebook,
+  logoInstagram,
+  logoTwitter,
+} from 'ionicons/icons';
+import LocationMap from '../components/LocationMap';
+import logo from '../assets/pawborrow-logo.png';
+import cat from '../assets/cat-peeking.png';
 import '../style/AboutUs.css';
 
-const values = [
-  {
-    icon: pawOutline,
-    title: 'Pet-first support',
-    description: 'We focus on helping every pet feel safe, happy, and cared for during every stay.',
-  },
-  {
-    icon: heartOutline,
-    title: 'Trusted care',
-    description: 'Each pet profile is built around comfort, routine, and a gentle experience for families.',
-  },
-  {
-    icon: sparklesOutline,
-    title: 'Simple experience',
-    description: 'From browsing to booking, we keep the experience quick, clear, and stress-free.',
-  },
-];
+const PHONE = '+6309562392943294';
 
-const stats = [
-  { value: '2k+', label: 'Happy borrowers' },
-  { value: '150+', label: 'Pets matched' },
-  { value: '1.2k+', label: 'Successful stays' },
-  { value: '3 yrs', label: 'In service' },
+const socials = [
+  { icon: logoFacebook, label: 'Facebook', href: 'https://facebook.com/' },
+  { icon: logoInstagram, label: 'Instagram', href: 'https://instagram.com/' },
+  { icon: logoTwitter, label: 'Twitter', href: 'https://twitter.com/' },
 ];
 
 const AboutUs = () => {
@@ -35,50 +29,63 @@ const AboutUs = () => {
     <IonPage>
       <IonContent fullscreen className="about-us-content">
         <div className="about-us-scroll">
-          <header className="about-us-header">
-            <button className="about-us-back" aria-label="Go back" onClick={() => navigate(-1)}>
-              <IonIcon icon={chevronBackOutline} />
-            </button>
-            <h1>About Us</h1>
-          </header>
+          <button
+            className="about-us-back"
+            aria-label="Go back"
+            onClick={() => navigate(-1)}
+          >
+            <IonIcon icon={chevronBackOutline} />
+          </button>
 
-          <section className="about-us-panel about-us-hero-panel">
-            <div className="about-us-badge">PawBorrow</div>
-            <h2>Pet companionship without the long-term commitment.</h2>
-            <p>
-              We help families find loving, safe, and comfortable pet care experiences with a modern,
-              stress-free process built around trust.
+          <section className="about-panel about-panel--intro">
+            <img className="about-wordmark" src={logo} alt="PawBorrow" />
+            <p className="about-tagline">For Pet &amp; Pet Supplies</p>
+            <hr className="about-divider" />
+            <p className="about-copy">
+              PawBorrow is a pet companion service that connects people with
+              loving cats, dogs, and guinea pigs for temporary, supervised
+              companion experiences. We make it easier for Quezon City residents
+              to enjoy the comfort, joy, and companionship of pets without the
+              long-term commitment and responsibilities of pet ownership.
             </p>
-
-            <div className="about-us-stats">
-              {stats.map((stat) => (
-                <div className="about-us-stat" key={stat.label}>
-                  <strong>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                </div>
-              ))}
-            </div>
           </section>
 
-          <section className="about-us-panel about-us-story-panel">
-            <div className="about-us-story-card">
-              <p className="about-us-kicker">Our Story</p>
-              <h3>Built by students who care deeply about animal wellbeing.</h3>
-              <p>
-                PawBorrow was created to make pet companionship more accessible. We combine thoughtful
-                matching, joyful experiences, and thoughtful care so every pet feels at ease.
-              </p>
+          <section className="about-panel about-panel--contact">
+            <h2 className="about-heading">
+              <IonIcon icon={locationSharp} className="about-heading-pin" />
+              Our Location
+            </h2>
+
+            <LocationMap />
+
+            <h2 className="about-heading about-heading--contact">
+              <IonIcon icon={pawSharp} className="about-heading-paw" />
+              Contact Us
+            </h2>
+
+            <div className="about-contact">
+              <img className="about-cat" src={cat} alt="" aria-hidden="true" />
+
+              <a className="about-phone" href={`tel:${PHONE}`}>
+                <span className="about-phone-icon">
+                  <IonIcon icon={callOutline} />
+                </span>
+                <span className="about-phone-number">{PHONE}</span>
+              </a>
             </div>
 
-            <div className="about-us-values">
-              {values.map((item) => (
-                <div className="about-us-card" key={item.title}>
-                  <div className="about-us-icon">
-                    <IonIcon icon={item.icon} />
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </div>
+            <div className="about-socials">
+              {socials.map((s) => (<a
+                
+                  key={s.label}
+                  className="about-social"
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                >
+                  <IonIcon icon={s.icon} />
+                </a>
               ))}
             </div>
           </section>
