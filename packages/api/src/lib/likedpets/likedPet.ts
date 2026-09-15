@@ -4,14 +4,17 @@ export interface LikedPet {
   liked_pet_id: number;
   pet_id: number;
   created_at: string;
+
   pet: {
     pet_id: number;
     name: string;
     breed: string | null;
     image_url: string | null;
     status: string;
+
     category: {
       category_name: string;
+      hourly_rate: number | string | null;
     } | null;
   } | null;
 }
@@ -47,7 +50,8 @@ export async function getLikedPets(): Promise<LikedPet[]> {
         image_url,
         status,
         category:pet_category (
-          category_name
+          category_name,
+          hourly_rate
         )
       )
     `)
