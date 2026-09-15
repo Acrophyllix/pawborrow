@@ -9,6 +9,7 @@ import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import "@/styles/Favorites.css";
 
+
 interface LikedPetCardProps {
   likedPet: LikedPet;
   onDelete: (petId: number) => void;
@@ -26,12 +27,22 @@ function LikedPetCard({
   if (!pet) return null;
 
   function handleBookAgain() {
-    navigate("/booking", {
-      state: {
-        pet,
+  if (!pet) return;
+
+  navigate("/booking", {
+    state: {
+      pet: {
+        id: pet.pet_id,
+        name: pet.name,
+        breed: pet.breed ?? "",
+        image: pet.image_url ?? "/images/pet-placeholder.jpg",
+        status: pet.status,
+        category: pet.category?.category_name ?? "",
+        hourlyRate: Number(pet.category?.hourly_rate ?? 0),
       },
-    });
-  }
+    },
+  });
+}
 
   return (
     <div className="liked-card">
