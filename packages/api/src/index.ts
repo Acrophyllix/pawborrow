@@ -23,3 +23,7 @@ export * from "./lib/booking/booking";
 export * from "./lib/booking/useAdminBooking";
 export * from "./lib/booking/useBookings";
 export * from "./lib/booking/useUpdateBooking";
+
+export * from "./lib/useAdminUsers";
+export * from "./lib/pets/useAdminPets";
+export * from "./lib/pets/useUpdatePetStatus";
