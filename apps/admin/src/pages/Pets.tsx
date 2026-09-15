@@ -17,8 +17,6 @@ const statusLabel: Record<PetStatus, string> = {
   booked: 'Booked',
 };
 
-// Rough, deterministic-per-pet color so personalities stay visually distinct
-// without needing a fixed lookup table (personality is now a free-form array).
 const personalityPalette = [
   'text-rose-500',
   'text-emerald-500',
@@ -45,8 +43,6 @@ function StatusSelect({
     const newStatus = e.target.value as PetStatus;
     if (newStatus === pet.status) return;
 
-    // "booked" should normally reflect a real row in the booking table —
-    // warn before an admin casually clicks it away.
     if (pet.status === 'booked') {
       const confirmed = window.confirm(
         `${pet.name} is currently marked as booked. Changing this here won't cancel any real reservation tied to it in the booking table — only do this if you're sure. Continue?`
