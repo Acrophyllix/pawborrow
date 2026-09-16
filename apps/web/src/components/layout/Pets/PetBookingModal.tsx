@@ -33,8 +33,15 @@ export default function PetBookingModal({
   }
 
   const hourlyRate = pet.hourlyRate;
+  const isAvailable = pet.status === "available";
+  const isBooked = pet.status === "booked";
 
   function handleBookNow() {
+    // Extra protection in the UI
+    if (!isAvailable) {
+      return;
+    }
+
     navigate("/booking", {
       state: {
         pet,
@@ -53,8 +60,7 @@ export default function PetBookingModal({
         className="pet-modal"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* CLOSE BUTTON */}
-
+        {/* Close button */}
         <button
           type="button"
           className="pet-modal-close"
@@ -64,8 +70,7 @@ export default function PetBookingModal({
           ✕
         </button>
 
-        {/* PET IMAGE */}
-
+        {/* Image */}
         {pet.image && (
           <div className="pet-modal-image">
             <img
@@ -75,33 +80,30 @@ export default function PetBookingModal({
           </div>
         )}
 
-        {/* PET DETAILS */}
-
         <div className="pet-modal-details">
-
+          {/* Category */}
           <p className="pet-modal-eyebrow">
             {pet.category}
           </p>
 
+          {/* Name */}
           <h2>
             {pet.name}
           </h2>
 
+          {/* Breed */}
           <p className="pet-modal-breed">
             {pet.breed || "Unknown breed"}
           </p>
 
-          {/* HOURLY RATE */}
-
+          {/* Price */}
           <p className="pet-modal-price">
             ₱{hourlyRate.toLocaleString()}.00 / hour
           </p>
 
-          {/* PERSONALITY */}
-
+          {/* Personality */}
           {pet.personality?.length > 0 && (
             <div className="pet-modal-tags">
-
               {pet.personality.map((trait) => (
                 <span
                   key={trait}
@@ -110,32 +112,49 @@ export default function PetBookingModal({
                   {trait}
                 </span>
               ))}
-
             </div>
           )}
 
-          {/* BOOKING BUTTON */}
+          {/* Booking button / status */}
+          {isAvailable ? (
+            <>
+              <button
+                type="button"
+                className="pet-modal-book-btn"
+                onClick={handleBookNow}
+              >
+                Book Now
+              </button>
 
-          <button
-            type="button"
-            className="pet-modal-book-btn"
-            onClick={handleBookNow}
-          >
-            Book Now
-          </button>
+              <p className="pet-modal-availability">
+                ✓ Available for booking
+              </p>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                className="pet-modal-book-btn disabled"
+                disabled
+              >
+                {isBooked
+                  ? "Currently Booked"
+                  : "Currently Unavailable"}
+              </button>
 
-          {/* AVAILABILITY */}
+              <p className="pet-modal-unavailable">
+                {isBooked
+                  ? "✕ This pet is currently booked."
+                  : "✕ This pet is currently unavailable."}
+              </p>
+            </>
+          )}
 
-          <p className="pet-modal-availability">
-            ✓ Available for booking
-          </p>
-
-          {/* DESCRIPTION */}
-
+          {/* Description */}
           <p className="pet-modal-description">
             {pet.name}
             {pet.breed
-              ? `, known for being `
+              ? ", known for being "
               : " is "}
             {pet.personality?.length
               ? pet.personality
@@ -148,7 +167,6 @@ export default function PetBookingModal({
             bed, and care instructions — just pick
             your date, start time, and duration.
           </p>
-
         </div>
       </div>
     </div>

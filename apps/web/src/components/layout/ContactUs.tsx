@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '@/styles/Contact.css';
+import { Pin, Mail, Phone, Clock } from 'lucide-react';
 
 export default function ContactUs() {
   const [submitted, setSubmitted] = useState(false);
@@ -57,7 +58,7 @@ export default function ContactUs() {
             <label htmlFor="message">Message</label>
             <textarea id="message" name="message" rows={5} placeholder="Your message..." required />
           </div>
-          <button type="submit" className="btn btn--dark">Send Message</button>
+          <button type="submit" className="rounded-full bg-froly-400 py-3.5 px-25 font-medium text-white items-center">Send Message</button>
           {submitted && (
             <p className="contact__success">
               Thanks! This form isn't connected to anything yet, but your
@@ -75,19 +76,19 @@ export default function ContactUs() {
           </p>
           <ul className="contact__info-list">
             <li>
-              <span className="contact__icon" aria-hidden="true">📍</span>
+              <span className="contact__icon" aria-hidden="true"><Pin size={24} className="text-white"/></span>
               <span>Quezon City, Metro Manila</span>
             </li>
             <li>
-              <span className="contact__icon" aria-hidden="true">✉️</span>
+              <span className="contact__icon" aria-hidden="true"><Mail size={24} className="text-white"/></span>
               <span>hello@pawborrow.ph</span>
             </li>
             <li>
-              <span className="contact__icon" aria-hidden="true">📞</span>
+              <span className="contact__icon" aria-hidden="true"><Phone size={24} className="text-white"/></span>
               <span>+63 900 000 0000</span>
             </li>
             <li>
-              <span className="contact__icon" aria-hidden="true">🕐</span>
+              <span className="contact__icon" aria-hidden="true"><Clock size={24} className="text-white"/></span>
               <span>Mon – Fri: 10AM – 6PM</span>
             </li>
           </ul>

@@ -12,8 +12,6 @@ export type Pet = {
   image: string | null;
   hourlyRate: number;
 };
-
-// Raw select shape shared by both queries below.
 const PET_SELECT = `
   pet_id,
   name,
@@ -45,12 +43,11 @@ function mapPetRow(pet: any): Pet {
   };
 }
 
-// Customer-facing: only pets that can currently be booked.
+
 export async function getPets(): Promise<Pet[]> {
   const { data, error } = await supabase
     .from("pet")
     .select(PET_SELECT)
-    .eq("status", "available")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -60,7 +57,6 @@ export async function getPets(): Promise<Pet[]> {
   return (data ?? []).map(mapPetRow);
 }
 
-// Admin-facing: every pet regardless of status, for inventory management.
 export async function getAllPetsAdmin(): Promise<Pet[]> {
   const { data, error } = await supabase
     .from("pet")
@@ -74,7 +70,6 @@ export async function getAllPetsAdmin(): Promise<Pet[]> {
   return (data ?? []).map(mapPetRow);
 }
 
-// Admin-only in practice — blocked by RLS for non-admins.
 export async function updatePetStatus(
   petId: number,
   status: PetStatus

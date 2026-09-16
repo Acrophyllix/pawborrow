@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import FAQS from "@/components/ui/Faq";
 import "@/styles/Home.css";
 import "@/styles/Button.css";
 import { MapPin, CalendarDays, PawPrint } from "lucide-react";
@@ -340,27 +341,3 @@ function MobileApp() {
   );
 }
 
-function FAQS() {
-  return (
-    <main className="relative">
-      <div className="h-fit m-auto py-12 px-5 md:px-10 flex flex-col items-center relative become-a-host-faqs pb-32">
-        <h1 className="text-3xl xs:text-4xl lg:text-5xl text-froly-400 tracking-tighter font-bold text-center mb-2">
-          Frequently Asked Questions
-        </h1>
-        <div className="w-full max-w-200 mt-6">
-          <div className="flex flex-row w-full justify-evenly text-[#696969]">
-            <div className="w-full border-solid flex font-inter items-center justify-center py-3 font-bold text-xs sm:text-base md:text-lg cursor-pointer border-b-[3px] border-background text-background">
-              General Overview
-            </div>
-            <div className="border-b border-[#94949480] w-full border-solid flex font-inter items-center justify-center py-3 font-bold text-xs sm:text-base md:text-lg cursor-pointer">
-              Others
-            </div>
-          </div>
-          <div className="">
-            <div className="w-full font-inter text-background font-normal! mt-5 flex flex-col gap-4 text-sm min-h-75"></div>
-          </div>
-        </div>
-      </div>
-    </main>
-  );
-}

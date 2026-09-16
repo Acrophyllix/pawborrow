@@ -30,6 +30,7 @@ export * from "./lib/booking/useRescheduleBooking";
 export * from "./lib/useAdminUsers";
 export * from "./lib/pets/useAdminPets";
 export * from "./lib/pets/useUpdatePetStatus";
+export * from "./lib/pets/usePetRealTime";
 
 export * from "./lib/likedpets/likedPet";
 export * from "./lib/likedpets/useLikedPets";

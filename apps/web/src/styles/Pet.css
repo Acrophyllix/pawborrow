@@ -201,11 +201,7 @@
   font-size: 0.85rem;
   font-weight: 600;
 }
-.pets-hero-text h1 {
-  font-size: 2.6rem;
-  line-height: 1.15;
-  margin: 12px 0 16px;
-}
+
 .pets-hero-text p {
   color: #6b6b6b;
   font-size: 0.95rem;
@@ -535,12 +531,6 @@
   align-items: flex-start;
 }
 
-.pets-hero-text h1 {
-  font-size: 2.6rem;
-  line-height: 1.15;
-  margin: 12px 0 16px;
-  color: #1a1a1a;
-}
 
 .personality-tag.active {
   background: #ef7f6b;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { createPayment } from "@repo/api";
 import type { Pet } from "@repo/api";
+import { Banknote } from "lucide-react";
 
 type PaymentState = {
   bookingId: number;
@@ -59,17 +60,13 @@ export default function Payment() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [selectedMethod, setSelectedMethod] =
-    useState("GCash");
+  const [selectedMethod, setSelectedMethod] = useState("GCash");
 
-  const [loading, setLoading] =
-    useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [error, setError] =
-    useState("");
+  const [error, setError] = useState("");
 
-  const state =
-    location.state as PaymentState | null;
+  const state = location.state as PaymentState | null;
 
   if (!state) {
     return (
@@ -85,8 +82,7 @@ export default function Payment() {
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-stone-500">
-              Please select a pet and create a booking
-              first.
+              Please select a pet and create a booking first.
             </p>
 
             <button
@@ -105,7 +101,7 @@ export default function Payment() {
   const paymentState: PaymentState = state;
   const pet = paymentState.pet;
 
-    console.log("Start time:", paymentState.startTime);
+  console.log("Start time:", paymentState.startTime);
   console.log("End time:", paymentState.endTime);
 
   async function handlePayment() {
@@ -123,9 +119,7 @@ export default function Payment() {
       navigate("/bookings");
     } catch (err) {
       setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to create payment."
+        err instanceof Error ? err.message : "Failed to create payment.",
       );
     } finally {
       setLoading(false);
@@ -135,8 +129,6 @@ export default function Payment() {
   return (
     <main className="min-h-screen bg-stone-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
-
-
         <div className="mb-8">
           <button
             type="button"
@@ -153,22 +145,13 @@ export default function Payment() {
           </h1>
 
           <p className="mt-2 text-sm text-stone-500 sm:text-base">
-            Review your booking details before completing
-            your payment.
+            Review your booking details before completing your payment.
           </p>
         </div>
 
-
-
         <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-
-
-
           <div className="space-y-6">
-
-
             <section className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-
               <div className="border-b border-stone-100 px-6 py-5">
                 <h2 className="text-lg font-bold text-stone-900">
                   Booking details
@@ -179,8 +162,6 @@ export default function Payment() {
               </div>
 
               <div className="flex flex-col gap-5 p-6 sm:flex-row">
-
-
                 <div className="h-40 w-full shrink-0 overflow-hidden rounded-xl bg-stone-100 sm:h-36 sm:w-36">
                   {pet.image ? (
                     <img
@@ -195,10 +176,8 @@ export default function Payment() {
                   )}
                 </div>
 
-
                 <div className="flex-1">
                   <div className="flex flex-wrap items-start justify-between gap-3">
-
                     <div>
                       <h3 className="text-2xl font-bold text-stone-900">
                         {pet.name}
@@ -217,7 +196,6 @@ export default function Payment() {
                   </div>
 
                   <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-
                     <div>
                       <p className="text-xs font-medium uppercase tracking-wide text-stone-400">
                         Category
@@ -238,24 +216,17 @@ export default function Payment() {
                         </span>
                       </p>
                     </div>
-
                   </div>
                 </div>
-
               </div>
             </section>
 
-
             <section className="rounded-2xl border border-stone-200 bg-white shadow-sm">
-
               <div className="border-b border-stone-100 px-6 py-5">
-                <h2 className="text-lg font-bold text-stone-900">
-                  Schedule
-                </h2>
+                <h2 className="text-lg font-bold text-stone-900">Schedule</h2>
               </div>
 
               <div className="grid grid-cols-1 divide-y divide-stone-100 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-
                 <div className="px-6 py-5">
                   <p className="text-xs font-medium uppercase tracking-wide text-stone-400">
                     Date
@@ -284,18 +255,13 @@ export default function Payment() {
                   </p>
 
                   <p className="mt-2 font-semibold text-stone-900">
-                    {formatDuration(
-                      paymentState.durationMinutes
-                    )}
+                    {formatDuration(paymentState.durationMinutes)}
                   </p>
                 </div>
-
               </div>
             </section>
 
-
             <section className="rounded-2xl border border-stone-200 bg-white shadow-sm">
-
               <div className="border-b border-stone-100 px-6 py-5">
                 <h2 className="text-lg font-bold text-stone-900">
                   Contact information
@@ -303,7 +269,6 @@ export default function Payment() {
               </div>
 
               <div className="grid gap-5 p-6 sm:grid-cols-2">
-
                 <div>
                   <p className="text-xs font-medium uppercase tracking-wide text-stone-400">
                     Name
@@ -336,13 +301,10 @@ export default function Payment() {
                     </p>
                   </div>
                 )}
-
               </div>
             </section>
 
-
             <section className="rounded-2xl border border-stone-200 bg-white shadow-sm">
-
               <div className="border-b border-stone-100 px-6 py-5">
                 <h2 className="text-lg font-bold text-stone-900">
                   Payment method
@@ -354,7 +316,6 @@ export default function Payment() {
               </div>
 
               <div className="p-6">
-
                 <label
                   className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition ${
                     selectedMethod === "GCash"
@@ -367,25 +328,19 @@ export default function Payment() {
                     name="paymentMethod"
                     value="GCash"
                     checked={selectedMethod === "GCash"}
-                    onChange={(event) =>
-                      setSelectedMethod(
-                        event.target.value
-                      )
-                    }
+                    onChange={(event) => setSelectedMethod(event.target.value)}
                     className="h-4 w-4 accent-[#442808]"
                   />
 
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-xs font-bold text-blue-600">
-                    G
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-xs font-bold">
+                    <Banknote size={20} className="text-green-500" />
                   </div>
 
                   <div className="flex-1">
-                    <p className="font-semibold text-stone-900">
-                      GCash
-                    </p>
+                    <p className="font-semibold text-stone-900">Mock Payment</p>
 
                     <p className="text-xs text-stone-500">
-                      Pay securely using GCash
+                      Pay securely using our mock payment gateway.
                     </p>
                   </div>
 
@@ -395,18 +350,12 @@ export default function Payment() {
                     </span>
                   )}
                 </label>
-
               </div>
             </section>
-
           </div>
 
-
-
           <aside className="lg:sticky lg:top-6 lg:self-start">
-
             <div className="rounded-2xl border border-stone-200 bg-white shadow-sm">
-
               <div className="border-b border-stone-100 px-6 py-5">
                 <h2 className="text-lg font-bold text-stone-900">
                   Payment summary
@@ -414,86 +363,57 @@ export default function Payment() {
               </div>
 
               <div className="space-y-4 p-6">
-
-
                 <div className="flex items-center justify-between gap-4 text-sm">
-                  <span className="text-stone-500">
-                    Hourly rate
-                  </span>
+                  <span className="text-stone-500">Hourly rate</span>
 
                   <span className="font-medium text-stone-900">
-                    ₱
-                    {paymentState.hourlyRate.toLocaleString()}
+                    ₱{paymentState.hourlyRate.toLocaleString()}
                   </span>
                 </div>
 
-
                 <div className="flex items-center justify-between gap-4 text-sm">
-                  <span className="text-stone-500">
-                    Duration
-                  </span>
+                  <span className="text-stone-500">Duration</span>
 
                   <span className="font-medium text-stone-900">
-                    {formatDuration(
-                      paymentState.durationMinutes
-                    )}
+                    {formatDuration(paymentState.durationMinutes)}
                   </span>
                 </div>
 
                 <div className="border-t border-stone-100 pt-4">
-
                   <div className="flex items-center justify-between gap-4 text-sm">
-                    <span className="text-stone-500">
-                      Calculation
-                    </span>
+                    <span className="text-stone-500">Calculation</span>
 
                     <span className="text-right font-medium text-stone-700">
-                      ₱
-                      {paymentState.hourlyRate.toLocaleString()}
+                      ₱{paymentState.hourlyRate.toLocaleString()}
                       {" × "}
                       {paymentState.durationMinutes / 60}
                     </span>
                   </div>
-
                 </div>
 
-
-                <div className="mt-2 rounded-xl bg-[#442808] p-5 text-white">
-
+                <div className="mt-2 rounded-xl p-5 text-black">
                   <div className="flex items-center justify-between gap-4">
-
-                    <span className="text-sm font-medium text-white/80">
-                      Total
-                    </span>
+                    <span className="text-sm text-blac font-bold">Total</span>
 
                     <span className="text-2xl font-bold">
-                      ₱
-                      {paymentState.total.toLocaleString()}
+                      ₱{paymentState.total.toLocaleString()}
                     </span>
-
                   </div>
-
                 </div>
-
-
 
                 <div className="rounded-xl bg-amber-50 p-4">
                   <p className="text-xs leading-5 text-amber-800">
-                    By continuing, you confirm that the
-                    booking information above is correct.
+                    By checking out, you agree with our Terms of Service and
+                    confirm that you have read our Privacy Policy. You can
+                    cancel recurring payments at any time.
                   </p>
                 </div>
 
-
                 {error && (
                   <div className="rounded-xl border border-red-200 bg-red-50 p-4">
-                    <p className="text-sm leading-5 text-red-700">
-                      {error}
-                    </p>
+                    <p className="text-sm leading-5 text-red-700">{error}</p>
                   </div>
                 )}
-
-
 
                 <button
                   type="button"
@@ -506,7 +426,6 @@ export default function Payment() {
                     : `Pay ₱${paymentState.total.toLocaleString()}`}
                 </button>
 
-
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
@@ -515,12 +434,9 @@ export default function Payment() {
                 >
                   Back to booking
                 </button>
-
               </div>
             </div>
-
           </aside>
-
         </div>
       </div>
     </main>

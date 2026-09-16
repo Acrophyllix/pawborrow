@@ -5,12 +5,22 @@ export function useUpdatePetStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ petId, status }: { petId: number; status: PetStatus }) =>
-      updatePetStatus(petId, status),
+    mutationFn: ({
+      petId,
+      status,
+    }: {
+      petId: number;
+      status: PetStatus;
+    }) => updatePetStatus(petId, status),
 
     onSuccess: () => {
-      // "pets" covers the customer-facing list, ["pets","admin"] the admin one.
-      queryClient.invalidateQueries({ queryKey: ["pets"] });
+      queryClient.invalidateQueries({
+        queryKey: ["pets", "admin"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["pets"],
+      });
     },
   });
 }

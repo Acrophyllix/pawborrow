@@ -17,6 +17,7 @@ import {
   useLikedPets,
   useAddLikedPet,
   useRemoveLikedPet,
+  usePetRealTime,
   useAuth,
 } from "@repo/api";
 
@@ -34,7 +35,7 @@ export default function PetsPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-
+  usePetRealTime();
   const categoryFromUrl = searchParams.get("category");
 
   const {
@@ -246,17 +247,6 @@ const isUpdatingLike =
     },
   });
 }
-  if (isLoading) {
-    return (
-      <>
-        <Navbar />
-
-        <main className="flex min-h-[60vh] items-center justify-center">
-          <p className="text-sm text-gray-500">Loading pets...</p>
-        </main>
-      </>
-    );
-  }
 
   if (isError) {
     return (
@@ -277,12 +267,11 @@ const isUpdatingLike =
       <header className="pets-hero">
         <div className="pets-hero-content">
           <div className="pets-hero-text">
-            <span className="eyebrow">PawBorrow</span>
+            <span className="eyebrow">PawBorrow &middot; Quezon City</span>
 
-            <h1>
-              Friends come with
-              <br />
-              four paws
+            <h1 className="text-5xl leading-[1.12] font-extrabold mb-4">
+              Friends come with {""}
+              <span className="text-froly-500">four paws.</span>
             </h1>
 
             <p>
