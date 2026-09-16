@@ -33,11 +33,17 @@ export default function PetBookingModal({
   }
 
   const hourlyRate = pet.hourlyRate;
+
   const isAvailable = pet.status === "available";
   const isBooked = pet.status === "booked";
 
   function handleBookNow() {
-    // Extra protection in the UI
+    /*
+     * Extra protection.
+     *
+     * Even if somebody somehow opens this modal for
+     * a booked/unavailable pet, don't navigate.
+     */
     if (!isAvailable) {
       return;
     }
@@ -60,7 +66,6 @@ export default function PetBookingModal({
         className="pet-modal"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <button
           type="button"
           className="pet-modal-close"
@@ -70,7 +75,6 @@ export default function PetBookingModal({
           ✕
         </button>
 
-        {/* Image */}
         {pet.image && (
           <div className="pet-modal-image">
             <img
@@ -81,27 +85,37 @@ export default function PetBookingModal({
         )}
 
         <div className="pet-modal-details">
-          {/* Category */}
           <p className="pet-modal-eyebrow">
             {pet.category}
           </p>
 
-          {/* Name */}
-          <h2>
-            {pet.name}
-          </h2>
+          <h2>{pet.name}</h2>
 
-          {/* Breed */}
           <p className="pet-modal-breed">
             {pet.breed || "Unknown breed"}
           </p>
 
-          {/* Price */}
           <p className="pet-modal-price">
             ₱{hourlyRate.toLocaleString()}.00 / hour
           </p>
 
-          {/* Personality */}
+          {/* STATUS */}
+          <div className="mt-3">
+            {isAvailable ? (
+              <span className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-600">
+                Available
+              </span>
+            ) : isBooked ? (
+              <span className="inline-block rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-600">
+                Currently Booked
+              </span>
+            ) : (
+              <span className="inline-block rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold text-gray-600">
+                Currently Unavailable
+              </span>
+            )}
+          </div>
+
           {pet.personality?.length > 0 && (
             <div className="pet-modal-tags">
               {pet.personality.map((trait) => (
@@ -115,7 +129,7 @@ export default function PetBookingModal({
             </div>
           )}
 
-          {/* Booking button / status */}
+          {/* BOOK BUTTON */}
           {isAvailable ? (
             <>
               <button
@@ -150,19 +164,18 @@ export default function PetBookingModal({
             </>
           )}
 
-          {/* Description */}
           <p className="pet-modal-description">
             {pet.name}
             {pet.breed
-              ? ", known for being "
+              ? `, known for being `
               : " is "}
             {pet.personality?.length
-              ? pet.personality
-                  .join(" and ")
-                  .toLowerCase()
+              ? pet.personality.join(" and ").toLowerCase()
               : "friendly and caring"}
             .
+
             {" "}
+
             Every booking includes a food bowl,
             bed, and care instructions — just pick
             your date, start time, and duration.
