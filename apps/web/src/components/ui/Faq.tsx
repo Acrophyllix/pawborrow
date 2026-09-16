@@ -22,7 +22,7 @@ const FAQ_DATA = {
     {
       question: "How do I book a companionship session?",
       answer:
-        "Browse available pets on the platform, check their profiles, and reserve a session for a time that works for you all managed through your account online.",
+        "Browse available pets on the platform, check their profiles, and reserve a session for a time that works for you.",
     },
     {
       question: "Can I choose which pet I spend time with?",

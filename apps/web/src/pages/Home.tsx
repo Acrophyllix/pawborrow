@@ -128,8 +128,7 @@ function Hero() {
           Pet companionship, <br /> borrowed <span>your way.</span>
         </h1>
         <p className="hero__sub">
-          Not ready to commit to full-time pet ownership? Borrow a cat, dog, or
-          guinea pig for a day, a weekend, or however long you need the company.
+          Not ready to commit to full-time pet ownership? Borrow a cat, dog, rabbit, and capybara for a day, a weekend, or however long you need the company.
         </p>
         <div className="hero__actions">
           <Link
