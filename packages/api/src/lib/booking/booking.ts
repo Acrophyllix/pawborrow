@@ -120,7 +120,6 @@ export type AdminBooking = {
     email: string;
   } | null;
 };
-
 export async function getAdminBookings(): Promise<AdminBooking[]> {
   const { data, error } = await supabase
     .from("booking")
@@ -131,14 +130,12 @@ export async function getAdminBookings(): Promise<AdminBooking[]> {
       duration_minutes,
       status,
       created_at,
-
       pet (
         pet_id,
         name,
         breed,
         image_url
       ),
-
       user_profiles (
         id,
         first_name,
@@ -146,11 +143,10 @@ export async function getAdminBookings(): Promise<AdminBooking[]> {
         email
       )
     `)
+    .neq("status", "completed")
     .order("reservation_date", { ascending: true });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return (data ?? []).map((booking) => ({
     ...booking,
@@ -159,7 +155,9 @@ export async function getAdminBookings(): Promise<AdminBooking[]> {
       ? booking.pet[0] ?? null
       : booking.pet ?? null,
 
-    user_profile: Array.isArray(booking.user_profiles)
+    user_profile: Array.isArray(
+      booking.user_profiles,
+    )
       ? booking.user_profiles[0] ?? null
       : booking.user_profiles ?? null,
   }));
@@ -256,3 +254,15 @@ export async function adminRescheduleBooking(
   return data;
 }
 
+export async function getTotalBookings(): Promise<number> {
+  const { count, error } = await supabase
+    .from("booking")
+    .select("booking_id", {
+      count: "exact",
+      head: true,
+    });
+
+  if (error) throw error;
+
+  return count ?? 0;
+}

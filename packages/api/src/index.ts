@@ -26,6 +26,7 @@ export * from "./lib/booking/useUpdateBooking";
 export * from "./lib/booking/bookingTime";
 export * from "./lib/booking/useCurrentTime";
 export * from "./lib/booking/useRescheduleBooking";
+export * from "./lib/booking/useTotalBooking";
 
 export * from "./lib/useAdminUsers";
 export * from "./lib/pets/useAdminPets";
