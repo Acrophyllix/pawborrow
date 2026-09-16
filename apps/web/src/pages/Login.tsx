@@ -89,7 +89,7 @@ export default function Login() {
                 </span>
 
                 <p className="mt-2 text-base">
-                  You've got a Paw in me.
+                  You've got a Paw in me
                 </p>
               </div>
             </div>
