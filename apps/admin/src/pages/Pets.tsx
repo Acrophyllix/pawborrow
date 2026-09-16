@@ -97,7 +97,7 @@ export default function Pets() {
 
         {updateStatus.isError && (
           <p className="mb-3 text-sm text-rose-500">
-            Couldn't update status — you may not have admin permissions.
+            Couldn't update status do not have admin permissions.
           </p>
         )}
 

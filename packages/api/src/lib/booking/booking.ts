@@ -42,24 +42,12 @@ export async function createBooking(input: CreateBookingInput) {
     throw new Error("You must be signed in to book a pet.");
   }
 
-  if (
-    input.duration_minutes < 60 ||
-    input.duration_minutes % 15 !== 0
-  ) {
-    throw new Error("Invalid booking duration.");
-  }
-
-  const { data, error } = await supabase
-    .from("booking")
-    .insert({
-      user_id: user.id,
-      pet_id: input.pet_id,
-      reservation_date: input.reservation_date,
-      time_slot: input.time_slot,
-      duration_minutes: input.duration_minutes,
-    })
-    .select()
-    .single();
+  const { data, error } = await supabase.rpc("create_booking", {
+    p_pet_id: input.pet_id,
+    p_reservation_date: input.reservation_date,
+    p_time_slot: input.time_slot,
+    p_duration_minutes: input.duration_minutes,
+  });
 
   if (error) {
     throw error;
@@ -208,27 +196,63 @@ export type RescheduleBookingInput = {
 export async function rescheduleBooking(
   input: RescheduleBookingInput
 ) {
-  if (
-    input.durationMinutes < 60 ||
-    input.durationMinutes % 15 !== 0
-  ) {
-    throw new Error(
-      "Booking duration must be at least 1 hour and use 15-minute increments."
-    );
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError) {
+    throw userError;
   }
 
-  const { data, error } = await supabase
-    .from("booking")
-    .update({
-      reservation_date: input.reservationDate,
-      time_slot: input.timeSlot,
-      duration_minutes: input.durationMinutes,
-    })
-    .eq("booking_id", input.bookingId)
-    .select()
-    .single();
+  if (!user) {
+    throw new Error("You must be signed in.");
+  }
 
-  if (error) throw error;
+  const { data, error } = await supabase.rpc("reschedule_booking", {
+    p_booking_id: input.bookingId,
+    p_reservation_date: input.reservationDate,
+    p_time_slot: input.timeSlot,
+    p_duration_minutes: input.durationMinutes,
+  });
+
+  if (error) {
+    throw error;
+  }
 
   return data;
 }
+
+export async function adminRescheduleBooking(
+  input: RescheduleBookingInput
+) {
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError) {
+    throw userError;
+  }
+
+  if (!user) {
+    throw new Error("You must be signed in.");
+  }
+
+  const { data, error } = await supabase.rpc(
+    "admin_reschedule_booking",
+    {
+      p_booking_id: input.bookingId,
+      p_reservation_date: input.reservationDate,
+      p_time_slot: input.timeSlot,
+      p_duration_minutes: input.durationMinutes,
+    },
+  );
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+

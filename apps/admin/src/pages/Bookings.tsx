@@ -9,7 +9,7 @@ import {
   useCurrentTime,
   getTodayDate,
   getBookingDisplayStatus,
-  useRescheduleBooking,
+  useAdminRescheduleBooking,
   type AdminBooking,
 } from "@repo/api";
 
@@ -48,9 +48,7 @@ function CircularProgress({
   const stroke = 5;
 
   const radius = (size - stroke) / 2;
-
   const circumference = 2 * Math.PI * radius;
-
   const offset = circumference - (percent / 100) * circumference;
 
   return (
@@ -84,6 +82,8 @@ const statusStyles: Record<string, string> = {
   confirmed: "bg-emerald-200 text-emerald-700",
   cancelled: "bg-rose-200 text-rose-700",
   completed: "bg-gray-200 text-gray-700",
+  in_progress: "bg-blue-200 text-blue-700",
+  upcoming: "bg-sky-200 text-sky-700",
 };
 
 function formatTime(time: string | null) {
@@ -105,13 +105,15 @@ function formatTime(time: string | null) {
   }
 
   const suffix = hours >= 12 ? "PM" : "AM";
-
   const hour12 = hours % 12 || 12;
 
   return `${hour12}:${String(minutes).padStart(2, "0")} ${suffix}`;
 }
 
-function calculateEndTime(startTime: string | null, durationMinutes: number) {
+function calculateEndTime(
+  startTime: string | null,
+  durationMinutes: number,
+) {
   if (!startTime) {
     return "—";
   }
@@ -125,7 +127,6 @@ function calculateEndTime(startTime: string | null, durationMinutes: number) {
   const date = new Date();
 
   date.setHours(hours, minutes, 0, 0);
-
   date.setMinutes(date.getMinutes() + durationMinutes);
 
   const endTime = `${String(date.getHours()).padStart(2, "0")}:${String(
@@ -157,71 +158,101 @@ function getBookerName(
 }
 
 export default function Bookings() {
-  const { data: bookings, isLoading, error } = useAdminBookings();
+  const {
+    data: bookings,
+    isLoading,
+    error,
+  } = useAdminBookings();
 
   const updateBooking = useUpdateBooking();
 
-  const rescheduleBooking = useRescheduleBooking();
+  const rescheduleBooking = useAdminRescheduleBooking();
 
   const now = useCurrentTime();
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const selected =
-    bookings?.find((booking) => booking.booking_id === selectedId) ?? null;
+    bookings?.find(
+      (booking) => booking.booking_id === selectedId,
+    ) ?? null;
 
   const totalBookings = bookings?.length ?? 0;
 
   const pendingBookings =
-    bookings?.filter((booking) => booking.status.toLowerCase() === "pending")
-      .length ?? 0;
+    bookings?.filter(
+      (booking) =>
+        booking.status.toLowerCase() === "pending",
+    ).length ?? 0;
 
   const today = getTodayDate();
 
   const todayBookings =
-    bookings?.filter((booking) => booking.reservation_date === today) ?? [];
+    bookings?.filter(
+      (booking) => booking.reservation_date === today,
+    ) ?? [];
 
   const inProgressBookings =
     bookings?.filter(
-      (booking) => getBookingDisplayStatus(booking, now) === "in_progress",
+      (booking) =>
+        getBookingDisplayStatus(booking, now) ===
+        "in_progress",
     ) ?? [];
 
-  const [rescheduleOpen, setRescheduleOpen] = useState(false);
+  const [rescheduleOpen, setRescheduleOpen] =
+    useState(false);
 
-  const [rescheduleDate, setRescheduleDate] = useState("");
+  const [rescheduleDate, setRescheduleDate] =
+    useState("");
 
-  const [rescheduleTime, setRescheduleTime] = useState("09:00");
+  const [rescheduleTime, setRescheduleTime] =
+    useState("09:00");
 
-  const [rescheduleDuration, setRescheduleDuration] = useState(60);
+  const [rescheduleDuration, setRescheduleDuration] =
+    useState(60);
 
-  const [rescheduleBookingId, setRescheduleBookingId] = useState<number | null>(
-    null,
-  );
+  const [rescheduleBookingId, setRescheduleBookingId] =
+    useState<number | null>(null);
 
-  function handleOpenReschedule(booking: AdminBooking) {
+  function handleOpenReschedule(
+    booking: AdminBooking,
+  ) {
+    const status = booking.status.toLowerCase();
+  
+    if (
+      status === "completed" ||
+      status === "cancelled"
+    ) {
+      return;
+    }
+
     setRescheduleBookingId(booking.booking_id);
-
     setRescheduleDate(booking.reservation_date);
-
-    setRescheduleTime(booking.time_slot ?? "09:00");
-
-    setRescheduleDuration(booking.duration_minutes ?? 60);
+    setRescheduleTime(
+      booking.time_slot ?? "09:00",
+    );
+    setRescheduleDuration(
+      booking.duration_minutes ?? 60,
+    );
 
     setRescheduleOpen(true);
   }
 
   function handleCloseReschedule() {
     setRescheduleOpen(false);
-
     setRescheduleBookingId(null);
   }
 
   function handleDecreaseDuration() {
-    setRescheduleDuration((current) => (current <= 60 ? 60 : current - 15));
+    setRescheduleDuration((current) =>
+      current <= 60 ? 60 : current - 15,
+    );
   }
 
   function handleIncreaseDuration() {
-    setRescheduleDuration((current) => current + 15);
+    setRescheduleDuration(
+      (current) => current + 15,
+    );
   }
 
   function handleReschedule() {
@@ -233,7 +264,10 @@ export default function Bookings() {
       return;
     }
 
-    if (rescheduleDuration < 60 || rescheduleDuration % 15 !== 0) {
+    if (
+      rescheduleDuration < 60 ||
+      rescheduleDuration % 15 !== 0
+    ) {
       return;
     }
 
@@ -249,11 +283,23 @@ export default function Bookings() {
           handleCloseReschedule();
           setSelectedId(null);
         },
+
+        onError: (error) => {
+          console.error(
+            "Failed to reschedule booking:",
+            error,
+          );
+        },
       },
     );
   }
 
-  function handleStatusChange(status: "confirmed" | "cancelled" | "completed") {
+  function handleStatusChange(
+    status:
+      | "confirmed"
+      | "cancelled"
+      | "completed",
+  ) {
     if (!selected) {
       return;
     }
@@ -267,7 +313,31 @@ export default function Bookings() {
         onSuccess: () => {
           setSelectedId(null);
         },
+
+        onError: (error) => {
+          console.error(
+            "Failed to update booking status:",
+            error,
+          );
+        },
       },
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex-1 bg-gray-50">
+        <Header title="Bookings" />
+
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <p className="text-sm text-red-500">
+            Failed to load bookings:{" "}
+            {error instanceof Error
+              ? error.message
+              : String(error)}
+          </p>
+        </div>
+      </div>
     );
   }
 
@@ -277,7 +347,9 @@ export default function Bookings() {
 
       <div className="p-8">
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-          <h2 className="mb-6 text-base font-bold text-gray-800">Bookings</h2>
+          <h2 className="mb-6 text-base font-bold text-gray-800">
+            Bookings
+          </h2>
 
           <div className="mb-8 grid grid-cols-2 gap-8 sm:grid-cols-4">
             <div className="flex items-center gap-3">
@@ -287,7 +359,9 @@ export default function Bookings() {
               />
 
               <div>
-                <p className="text-xs text-gray-500">Total Bookings</p>
+                <p className="text-xs text-gray-500">
+                  Total Bookings
+                </p>
 
                 <p className="text-lg font-bold text-gray-800">
                   {totalBookings}
@@ -307,7 +381,9 @@ export default function Bookings() {
               />
 
               <div>
-                <p className="text-xs text-gray-500">Online Bookings</p>
+                <p className="text-xs text-gray-500">
+                  Online Bookings
+                </p>
 
                 <p className="text-lg font-bold text-gray-800">
                   {totalBookings}
@@ -324,14 +400,18 @@ export default function Bookings() {
               <CircularProgress
                 percent={
                   totalBookings > 0
-                    ? (pendingBookings / totalBookings) * 100
+                    ? (pendingBookings /
+                        totalBookings) *
+                      100
                     : 0
                 }
                 color="#34D399"
               />
 
               <div>
-                <p className="text-xs text-gray-500">Pending Approval</p>
+                <p className="text-xs text-gray-500">
+                  Pending Approval
+                </p>
 
                 <p className="text-lg font-bold text-gray-800">
                   {pendingBookings}
@@ -339,6 +419,7 @@ export default function Bookings() {
               </div>
             </div>
           </div>
+
 
           <h3 className="mb-4 text-sm font-bold text-gray-800">
             Upcoming Appointments
@@ -353,104 +434,140 @@ export default function Bookings() {
           {error && (
             <p className="py-8 text-center text-sm text-red-500">
               Failed to load bookings:{" "}
-              {error instanceof Error ? error.message : String(error)}
+              {String(error)}
             </p>
           )}
 
-          {!isLoading && !error && bookings && bookings.length === 0 && (
-            <p className="py-8 text-center text-sm text-gray-400">
-              No bookings found.
-            </p>
-          )}
+          {!isLoading &&
+            !error &&
+            bookings &&
+            bookings.length === 0 && (
+              <p className="py-8 text-center text-sm text-gray-400">
+                No bookings found.
+              </p>
+            )}
 
-          {!isLoading && !error && bookings && bookings.length > 0 && (
-            <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {bookings.map((booking) => {
-                const pet = booking.pet;
+          {!isLoading &&
+            !error &&
+            bookings &&
+            bookings.length > 0 && (
+              <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {bookings.map((booking) => {
+                  const pet = booking.pet;
+                  const profile =
+                    booking.user_profile;
 
-                const profile = booking.user_profile;
+                  const booker = getBookerName(
+                    profile?.first_name,
+                    profile?.last_name,
+                    profile?.email,
+                  );
 
-                const booker = getBookerName(
-                  profile?.first_name,
-                  profile?.last_name,
-                  profile?.email,
-                );
+                  const displayStatus =
+                    getBookingDisplayStatus(
+                      booking,
+                      now,
+                    );
 
-                const status = booking.status.toLowerCase();
+                  const status =
+                    displayStatus.toLowerCase();
 
-                return (
-                  <div
-                    key={booking.booking_id}
-                    className="rounded-xl border border-gray-100 p-4 shadow-sm"
-                  >
-                    <div className="mb-3 flex items-start justify-between">
-                      <div className="flex items-center gap-2">
-                        {pet?.image_url ? (
-                          <img
-                            src={pet.image_url}
-                            alt={pet.name}
-                            className="h-9 w-9 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div className="h-9 w-9 rounded-full bg-gray-200" />
-                        )}
+                  return (
+                    <div
+                      key={booking.booking_id}
+                      className="rounded-xl border border-gray-100 p-4 shadow-sm"
+                    >
 
+                      <div className="mb-3 flex items-start justify-between">
+                        <div className="flex items-center gap-2">
+                          {pet?.image_url ? (
+                            <img
+                              src={pet.image_url}
+                              alt={pet.name}
+                              className="h-9 w-9 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="h-9 w-9 rounded-full bg-gray-200" />
+                          )}
+
+                          <div>
+                            <p className="text-sm font-semibold text-gray-800">
+                              {pet?.name ??
+                                "Unknown pet"}
+                            </p>
+
+                            <p className="text-xs text-sky-500">
+                              Booker: {booker}
+                            </p>
+                          </div>
+                        </div>
+
+                        <span
+                          className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
+                            statusStyles[status] ??
+                            "bg-gray-200 text-gray-700"
+                          }`}
+                        >
+                          {displayStatus ===
+                          "in_progress"
+                            ? "In Progress"
+                            : displayStatus
+                                .charAt(0)
+                                .toUpperCase() +
+                              displayStatus.slice(
+                                1,
+                              )}
+                        </span>
+                      </div>
+
+
+                      <div className="mb-3 flex justify-between text-xs">
                         <div>
-                          <p className="text-sm font-semibold text-gray-800">
-                            {pet?.name ?? "Unknown pet"}
+                          <p className="text-sky-500">
+                            Session Start
                           </p>
 
-                          <p className="text-xs text-sky-500">
-                            Booker: {booker}
+                          <p className="text-gray-500">
+                            {formatTime(
+                              booking.time_slot,
+                            )}
+                          </p>
+                        </div>
+
+                        <div className="text-right">
+                          <p className="text-sky-500">
+                            Session End
+                          </p>
+
+                          <p className="text-gray-500">
+                            {calculateEndTime(
+                              booking.time_slot,
+                              booking.duration_minutes,
+                            )}
                           </p>
                         </div>
                       </div>
 
-                      <span
-                        className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
-                          statusStyles[status] ?? "bg-gray-200 text-gray-700"
-                        }`}
+                      <p className="mb-3 text-xs text-gray-400">
+                        {booking.reservation_date}
+                      </p>
+
+                      <button
+                        onClick={() =>
+                          setSelectedId(
+                            booking.booking_id,
+                          )
+                        }
+                        className="w-full rounded-lg border border-gray-200 py-2 text-xs font-medium text-gray-600 hover:bg-gray-50"
                       >
-                        {booking.status}
-                      </span>
+                        VIEW DETAILS
+                      </button>
                     </div>
+                  );
+                })}
+              </div>
+            )}
 
-                    <div className="mb-3 flex justify-between text-xs">
-                      <div>
-                        <p className="text-sky-500">Session Start</p>
-
-                        <p className="text-gray-500">
-                          {formatTime(booking.time_slot)}
-                        </p>
-                      </div>
-
-                      <div className="text-right">
-                        <p className="text-sky-500">Session End</p>
-
-                        <p className="text-gray-500">
-                          {calculateEndTime(
-                            booking.time_slot,
-                            booking.duration_minutes,
-                          )}
-                        </p>
-                      </div>
-                    </div>
-
-                    <p className="mb-3 text-xs text-gray-400">
-                      {booking.reservation_date}
-                    </p>
-
-                    <button
-                      onClick={() => setSelectedId(booking.booking_id)}
-                      className="w-full rounded-lg border border-gray-200 py-2 text-xs font-medium text-gray-600 hover:bg-gray-50"
-                    >
-                      VIEW DETAILS
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          )}
 
           <div className="mb-6">
             <h3 className="mb-2 text-sm font-bold text-gray-800">
@@ -463,35 +580,42 @@ export default function Bookings() {
               </p>
             ) : (
               <div className="space-y-2">
-                {inProgressBookings.map((booking) => (
-                  <div
-                    key={booking.booking_id}
-                    className="rounded-lg border border-emerald-100 bg-emerald-50 p-3"
-                  >
-                    <p className="text-sm font-semibold text-gray-800">
-                      {booking.pet?.name ?? "Unknown pet"}
-                    </p>
+                {inProgressBookings.map(
+                  (booking) => (
+                    <div
+                      key={booking.booking_id}
+                      className="rounded-lg border border-emerald-100 bg-emerald-50 p-3"
+                    >
+                      <p className="text-sm font-semibold text-gray-800">
+                        {booking.pet?.name ??
+                          "Unknown pet"}
+                      </p>
 
-                    <p className="text-xs text-gray-500">
-                      {formatTime(booking.time_slot)} –{" "}
-                      {calculateEndTime(
-                        booking.time_slot,
-                        booking.duration_minutes,
-                      )}
-                    </p>
+                      <p className="text-xs text-gray-500">
+                        {formatTime(
+                          booking.time_slot,
+                        )}{" "}
+                        –{" "}
+                        {calculateEndTime(
+                          booking.time_slot,
+                          booking.duration_minutes,
+                        )}
+                      </p>
 
-                    <p className="mt-1 text-xs font-medium text-emerald-600">
-                      Currently in progress
-                    </p>
-                  </div>
-                ))}
+                      <p className="mt-1 text-xs font-medium text-emerald-600">
+                        Currently in progress
+                      </p>
+                    </div>
+                  ),
+                )}
               </div>
             )}
           </div>
 
-
           <div>
-            <h3 className="mb-2 text-sm font-bold text-gray-800">Today</h3>
+            <h3 className="mb-2 text-sm font-bold text-gray-800">
+              Today
+            </h3>
 
             {todayBookings.length === 0 ? (
               <p className="text-xs text-gray-400">
@@ -499,37 +623,59 @@ export default function Bookings() {
               </p>
             ) : (
               <div className="space-y-2">
-                {todayBookings.map((booking) => (
-                  <div
-                    key={booking.booking_id}
-                    className="rounded-lg border border-gray-100 bg-gray-50 p-3"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-semibold text-gray-800">
-                          {booking.pet?.name ?? "Unknown pet"}
-                        </p>
+                {todayBookings.map((booking) => {
+                  const displayStatus =
+                    getBookingDisplayStatus(
+                      booking,
+                      now,
+                    );
 
-                        <p className="text-xs text-gray-500">
-                          {formatTime(booking.time_slot)} –{" "}
-                          {calculateEndTime(
-                            booking.time_slot,
-                            booking.duration_minutes,
-                          )}
-                        </p>
+                  return (
+                    <div
+                      key={booking.booking_id}
+                      className="rounded-lg border border-gray-100 bg-gray-50 p-3"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-semibold text-gray-800">
+                            {booking.pet?.name ??
+                              "Unknown pet"}
+                          </p>
+
+                          <p className="text-xs text-gray-500">
+                            {formatTime(
+                              booking.time_slot,
+                            )}{" "}
+                            –{" "}
+                            {calculateEndTime(
+                              booking.time_slot,
+                              booking.duration_minutes,
+                            )}
+                          </p>
+                        </div>
+
+                        <span
+                          className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
+                            statusStyles[
+                              displayStatus
+                            ] ??
+                            "bg-gray-200 text-gray-700"
+                          }`}
+                        >
+                          {displayStatus ===
+                          "in_progress"
+                            ? "In Progress"
+                            : displayStatus
+                                .charAt(0)
+                                .toUpperCase() +
+                              displayStatus.slice(
+                                1,
+                              )}
+                        </span>
                       </div>
-
-                      <span
-                        className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
-                          statusStyles[booking.status.toLowerCase()] ??
-                          "bg-gray-200 text-gray-700"
-                        }`}
-                      >
-                        {booking.status}
-                      </span>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
@@ -540,12 +686,15 @@ export default function Bookings() {
         isOpen={selected !== null}
         onClose={() => setSelectedId(null)}
         title={
-          selected ? `${selected.pet?.name ?? "Pet"}'s Appointment` : undefined
+          selected
+            ? `${
+                selected.pet?.name ?? "Pet"
+              }'s Appointment`
+            : undefined
         }
       >
         {selected && (
           <div className="space-y-4">
-
             <div className="flex items-center gap-3">
               {selected.pet?.image_url ? (
                 <img
@@ -559,14 +708,17 @@ export default function Bookings() {
 
               <div>
                 <p className="font-semibold text-gray-800">
-                  {selected.pet?.name ?? "Unknown pet"}
+                  {selected.pet?.name ??
+                    "Unknown pet"}
                 </p>
 
                 <p className="text-sm text-sky-500">
                   Booker:{" "}
                   {getBookerName(
-                    selected.user_profile?.first_name,
-                    selected.user_profile?.last_name,
+                    selected.user_profile
+                      ?.first_name,
+                    selected.user_profile
+                      ?.last_name,
                     selected.user_profile?.email,
                   )}
                 </p>
@@ -574,26 +726,50 @@ export default function Bookings() {
 
               <span
                 className={`ml-auto rounded-full px-3 py-1 text-xs font-semibold ${
-                  statusStyles[selected.status.toLowerCase()] ??
+                  statusStyles[
+                    getBookingDisplayStatus(
+                      selected,
+                      now,
+                    )
+                  ] ??
                   "bg-gray-200 text-gray-700"
                 }`}
               >
-                {selected.status}
+                {getBookingDisplayStatus(
+                  selected,
+                  now,
+                ) === "in_progress"
+                  ? "In Progress"
+                  : getBookingDisplayStatus(
+                      selected,
+                      now,
+                    )
+                        .charAt(0)
+                        .toUpperCase() +
+                    getBookingDisplayStatus(
+                      selected,
+                      now,
+                    ).slice(1)}
               </span>
             </div>
 
-
             <div className="grid grid-cols-2 gap-4 rounded-xl bg-gray-50 p-4 text-sm">
               <div>
-                <p className="text-xs text-sky-500">Session Start</p>
+                <p className="text-xs text-sky-500">
+                  Session Start
+                </p>
 
                 <p className="font-medium text-gray-700">
-                  {formatTime(selected.time_slot)}
+                  {formatTime(
+                    selected.time_slot,
+                  )}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs text-sky-500">Session End</p>
+                <p className="text-xs text-sky-500">
+                  Session End
+                </p>
 
                 <p className="font-medium text-gray-700">
                   {calculateEndTime(
@@ -620,7 +796,9 @@ export default function Bookings() {
               </p>
 
               <p className="text-sm text-gray-500">
-                {formatDuration(selected.duration_minutes)}
+                {formatDuration(
+                  selected.duration_minutes,
+                )}
               </p>
             </div>
 
@@ -631,14 +809,15 @@ export default function Bookings() {
               </p>
 
               <p className="text-sm text-gray-500">
-                {selected.pet?.name ?? "Unknown pet"}
+                {selected.pet?.name ??
+                  "Unknown pet"}
               </p>
 
               <p className="text-xs text-gray-400">
-                {selected.pet?.breed ?? "Unknown breed"}
+                {selected.pet?.breed ??
+                  "Unknown breed"}
               </p>
             </div>
-
 
             <div>
               <p className="mb-1 text-xs font-semibold uppercase text-gray-400">
@@ -646,49 +825,102 @@ export default function Bookings() {
               </p>
 
               <p className="text-sm text-gray-500">
-                {selected.user_profile?.email ?? "No email"}
+                {selected.user_profile?.email ??
+                  "No email"}
               </p>
             </div>
 
-                        <div className="flex gap-2 pt-2">
-              {selected.status.toLowerCase() === "pending" && (
+
+            <div className="flex gap-2 pt-2">
+
+              {selected.status.toLowerCase() ===
+                "pending" && (
                 <button
-                  onClick={() => handleStatusChange("confirmed")}
-                  disabled={updateBooking.isPending}
+                  onClick={() =>
+                    handleStatusChange(
+                      "confirmed",
+                    )
+                  }
+                  disabled={
+                    updateBooking.isPending
+                  }
                   className="flex-1 rounded-lg bg-emerald-500 py-2 text-sm font-semibold text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {updateBooking.isPending ? "Updating..." : "Approve"}
+                  {updateBooking.isPending
+                    ? "Updating..."
+                    : "Approve"}
                 </button>
               )}
 
-              {selected.status.toLowerCase() === "confirmed" && (
-                <button
-                  onClick={() => handleStatusChange("completed")}
-                  disabled={updateBooking.isPending}
-                  className="flex-1 rounded-lg bg-gray-700 py-2 text-sm font-semibold text-white hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {updateBooking.isPending ? "Updating..." : "Mark Completed"}
-                </button>
-              )}
 
-              <button
-                onClick={() => handleOpenReschedule(selected)}
-                disabled={
-                  updateBooking.isPending || rescheduleBooking.isPending
-                }
-                className="flex-1 rounded-lg bg-sky-500 py-2 text-sm font-semibold text-white hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Reschedule
-              </button>
-
-              {selected.status.toLowerCase() !== "cancelled" &&
-                selected.status.toLowerCase() !== "completed" && (
+              {selected.status.toLowerCase() ===
+                "confirmed" &&
+                getBookingDisplayStatus(
+                  selected,
+                  now,
+                ) !== "in_progress" &&
+                getBookingDisplayStatus(
+                  selected,
+                  now,
+                ) !== "completed" && (
                   <button
-                    onClick={() => handleStatusChange("cancelled")}
-                    disabled={updateBooking.isPending}
+                    onClick={() =>
+                      handleStatusChange(
+                        "completed",
+                      )
+                    }
+                    disabled={
+                      updateBooking.isPending
+                    }
+                    className="flex-1 rounded-lg bg-gray-700 py-2 text-sm font-semibold text-white hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {updateBooking.isPending
+                      ? "Updating..."
+                      : "Mark Completed"}
+                  </button>
+                )}
+
+
+              {selected.status.toLowerCase() !==
+                "cancelled" &&
+                selected.status.toLowerCase() !==
+                  "completed" && (
+                  <button
+                    onClick={() =>
+                      handleOpenReschedule(
+                        selected,
+                      )
+                    }
+                    disabled={
+                      updateBooking.isPending ||
+                      rescheduleBooking.isPending
+                    }
+                    className="flex-1 rounded-lg bg-sky-500 py-2 text-sm font-semibold text-white hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {rescheduleBooking.isPending
+                      ? "Rescheduling..."
+                      : "Reschedule"}
+                  </button>
+                )}
+
+              {selected.status.toLowerCase() !==
+                "cancelled" &&
+                selected.status.toLowerCase() !==
+                  "completed" && (
+                  <button
+                    onClick={() =>
+                      handleStatusChange(
+                        "cancelled",
+                      )
+                    }
+                    disabled={
+                      updateBooking.isPending
+                    }
                     className="flex-1 rounded-lg bg-rose-500 py-2 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {updateBooking.isPending ? "Updating..." : "Cancel"}
+                    {updateBooking.isPending
+                      ? "Updating..."
+                      : "Cancel"}
                   </button>
                 )}
             </div>
@@ -697,14 +929,12 @@ export default function Bookings() {
       </Modal>
 
 
-
       <Modal
         isOpen={rescheduleOpen}
         onClose={handleCloseReschedule}
         title="Reschedule Appointment"
       >
         <div className="space-y-5">
-
           <div>
             <label
               htmlFor="reschedule-date"
@@ -717,7 +947,11 @@ export default function Bookings() {
               id="reschedule-date"
               type="date"
               value={rescheduleDate}
-              onChange={(event) => setRescheduleDate(event.target.value)}
+              onChange={(event) =>
+                setRescheduleDate(
+                  event.target.value,
+                )
+              }
               className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none focus:border-sky-400"
             />
           </div>
@@ -735,7 +969,11 @@ export default function Bookings() {
               id="reschedule-time"
               type="time"
               value={rescheduleTime}
-              onChange={(event) => setRescheduleTime(event.target.value)}
+              onChange={(event) =>
+                setRescheduleTime(
+                  event.target.value,
+                )
+              }
               className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm outline-none focus:border-sky-400"
             />
           </div>
@@ -749,20 +987,28 @@ export default function Bookings() {
             <div className="flex items-center justify-between rounded-lg border border-gray-200 px-3 py-2">
               <button
                 type="button"
-                onClick={handleDecreaseDuration}
-                disabled={rescheduleDuration <= 60}
+                onClick={
+                  handleDecreaseDuration
+                }
+                disabled={
+                  rescheduleDuration <= 60
+                }
                 className="flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 text-lg text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 −
               </button>
 
               <span className="font-semibold text-gray-700">
-                {formatDuration(rescheduleDuration)}
+                {formatDuration(
+                  rescheduleDuration,
+                )}
               </span>
 
               <button
                 type="button"
-                onClick={handleIncreaseDuration}
+                onClick={
+                  handleIncreaseDuration
+                }
                 className="flex h-8 w-8 items-center justify-center rounded-md border border-gray-200 text-lg text-gray-600 hover:bg-gray-50"
               >
                 +
@@ -770,7 +1016,8 @@ export default function Bookings() {
             </div>
 
             <p className="mt-1 text-xs text-gray-400">
-              Minimum 1 hour. Additional time is added in 15-minute increments.
+              Minimum 1 hour. Additional time is
+              added in 15-minute increments.
             </p>
           </div>
 
@@ -782,7 +1029,9 @@ export default function Bookings() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-xs text-sky-500">Date</p>
+                <p className="text-xs text-sky-500">
+                  Date
+                </p>
 
                 <p className="text-sm font-medium text-gray-700">
                   {rescheduleDate || "—"}
@@ -790,37 +1039,51 @@ export default function Bookings() {
               </div>
 
               <div>
-                <p className="text-xs text-sky-500">Duration</p>
+                <p className="text-xs text-sky-500">
+                  Duration
+                </p>
 
                 <p className="text-sm font-medium text-gray-700">
-                  {formatDuration(rescheduleDuration)}
+                  {formatDuration(
+                    rescheduleDuration,
+                  )}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs text-sky-500">Start</p>
+                <p className="text-xs text-sky-500">
+                  Start
+                </p>
 
                 <p className="text-sm font-medium text-gray-700">
-                  {formatTime(rescheduleTime)}
+                  {formatTime(
+                    rescheduleTime,
+                  )}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs text-sky-500">End</p>
+                <p className="text-xs text-sky-500">
+                  End
+                </p>
 
                 <p className="text-sm font-medium text-gray-700">
-                  {calculateEndTime(rescheduleTime, rescheduleDuration)}
+                  {calculateEndTime(
+                    rescheduleTime,
+                    rescheduleDuration,
+                  )}
                 </p>
               </div>
             </div>
           </div>
 
-
           <div className="flex gap-2 pt-2">
             <button
               type="button"
               onClick={handleCloseReschedule}
-              disabled={rescheduleBooking.isPending}
+              disabled={
+                rescheduleBooking.isPending
+              }
               className="flex-1 rounded-lg border border-gray-200 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50 disabled:opacity-50"
             >
               Cancel
