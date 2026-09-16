@@ -292,7 +292,7 @@ function SecondaryHero() {
           <br className="hidden lg:block" />
           Whether you're seeking emotional support, a moment of relaxation, or therapeutic comfort,
           <br className="hidden lg:block" />
-          our lovingly cared-for fleet of cats, dogs, and guinea pigs is ready to brighten your day. 
+          our lovingly cared-for fleet of cats, dogs, rabbits, and capybaras is ready to brighten your day. 
           <br className="hidden lg:block" />
           As a proudly Quezon City-based service, we make companionship effortless.
           <br className="hidden lg:block" />
