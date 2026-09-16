@@ -1,4 +1,3 @@
 {
-  "css.lint.unknownAtRules": "ignore",
-  "liveServer.settings.multiRootWorkspaceName": "pawborrow"
+  "css.lint.unknownAtRules": "ignore"
 }

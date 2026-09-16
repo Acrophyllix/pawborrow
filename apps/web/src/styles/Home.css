@@ -63,6 +63,12 @@
   padding-bottom: 56px;
 }
 
+.hero__art {
+  position: relative;
+  min-height: 380px;
+  bottom: -50x;
+}
+
 .hero__text h1 {
   font-size: 2.9rem;
   line-height: 1.12;
@@ -84,6 +90,14 @@
 .hero__actions {
   display: flex;
   gap: 14px;
+}
+
+.hero__actions .btn {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
 }
 
 .hero__art {
@@ -136,10 +150,10 @@
 .hero__cutout {
   position: absolute;
   left: 50%;
-  bottom: 6%;
+  bottom: -9%;
   transform: translateX(-50%);
-  width: 92%;
-  max-width: 520px;
+  width: 100%;
+  max-width: 560px;
   height: auto;
   filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.22));
 }
@@ -273,22 +287,21 @@
   filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.2));
 }
 
-.section-hero__text h2 {
-  font-size: 1.9rem;
+
+
+.section-hero__text .btn {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 14px;
-  line-height: 1.2;
 }
 
-.section-hero__text p {
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 24px;
-  max-width: 420px;
-  line-height: 1.6;
-}
-
-.section-hero .btn--dark {
+.section-hero__text .btn--dark {
   background: var(--ink);
 }
 
