@@ -27,7 +27,7 @@ const FAQ_DATA = {
     {
       question: "Can I choose which pet I spend time with?",
       answer:
-        "Yes. Each pet has a profile you can view before booking, so you can pick based on breed, temperament, or availability.",
+        "Yes. Each pet has a profile you can view before booking, so you can pick based on breed, personality,or availability.",
     },
     {
       question: "Can I cancel or reschedule a booking?",
