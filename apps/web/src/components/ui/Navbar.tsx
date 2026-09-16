@@ -1,116 +1,107 @@
-import { Link, NavLink } from 'react-router-dom';
-import '@/styles/Navbar.css';
+import { Link, useNavigate, NavLink } from "react-router-dom";
+import NotificationsDropdown from "./Notification";
+import ProfileDropdown from "./ProfileDropdown";
+import { useAuth, useProfile, signOut } from "@repo/api";
+import "@/styles/Navbar.css";
 
 export default function Navbar() {
-  return (
-    <header className="navbar">
-      <div className="navbar__inner">
+  const { user, loading } = useAuth();
+  const { data: profile } = useProfile();
+  const navigate = useNavigate();
 
-        {/* Logo */}
-        <Link to="/" className="navbar__logo">
-          <span className="navbar__logo-mark">🐾</span> PawBorrow
+  async function handleLogout() {
+    await signOut();
+    navigate("/");
+  }
+
+  return (
+    <header className="navbar sticky top-0 z-20 bg-transparent px-6 pb-0 pt-4">
+      <div className="navbar__inner flex items-center justify-between gap-6 rounded-full px-5 py-3 shadow-md">
+        <Link
+          to="/"
+          className="navbar__logo flex items-center gap-2 whitespace-nowrap"
+        >
+          <img src="/images/pawicon.png" alt="PawBorrow" />
+
+          <span className="font-cherry text-xl">
+            Paw<span className="text-froly-400">Borrow</span>
+          </span>
         </Link>
 
-        {/* Navigation */}
-        <nav className="navbar__links" aria-label="Primary">
-
+        <nav className="navbar__links font-poppins" aria-label="Primary">
           <NavLink
             to="/"
             end
-            className={({ isActive }) => (isActive ? 'is-active' : '')}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "text-froly-600" : ""}`
+            }
           >
             Home
           </NavLink>
 
           <NavLink
             to="/pets"
-            className={({ isActive }) => (isActive ? 'is-active' : '')}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "text-froly-600" : ""}`
+            }
           >
-            Browse Pets
+            Pets
           </NavLink>
-
-          <a href="/#how-it-works">
-            How It Works
-          </a>
 
           <NavLink
             to="/about"
-            className={({ isActive }) => (isActive ? 'is-active' : '')}
+            className={({ isActive }) =>
+              `nav-link ${isActive ? "text-froly-600" : ""}`
+            }
           >
             About Us
           </NavLink>
 
-          <a href="/#contact">
-            Contact Us
-          </a>
-
-        </nav>
-
-        {/* Actions */}
-        <div className="navbar__actions">
-
-          {/* Search */}
-          <div className="navbar__search">
-            <input
-              type="search"
-              placeholder="Search pets, breeds..."
-              aria-label="Search"
-            />
-
-            <button aria-label="Search">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-              >
-                <circle
-                  cx="7"
-                  cy="7"
-                  r="5.5"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-
-                <path
-                  d="M11 11L14.5 14.5"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-          </div>
-
-          {/* Saved Pets */}
-          <button
-            className="navbar__icon-btn"
-            aria-label="Saved pets"
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M12 21s-7.5-4.6-10-9.1C.4 8.3 2 4.5 5.7 4c2.1-.3 4 .8 6.3 3.1C14.3 4.8 16.2 3.7 18.3 4c3.7.5 5.3 4.3 3.7 7.9C19.5 16.4 12 21 12 21Z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-            </svg>
-          </button>
-
-          {/* Sign In */}
           <NavLink
-            to="/login"
+            to="/contact"
             className={({ isActive }) =>
-              `navbar__cta ${isActive ? 'is-active' : ''}`
+              `nav-link ${isActive ? "text-froly-600" : ""}`
             }
           >
-            Sign In
+            Contact Us
           </NavLink>
+        </nav>
 
+        <div className="flex items-center gap-4">
+          {!loading &&
+            (user ? (
+              <>
+                <NotificationsDropdown />
+
+                <ProfileDropdown
+                  user={{
+                    name:
+                      [profile?.first_name, profile?.last_name]
+                        .filter(Boolean)  
+                        .join(" ") || "Account",
+                    email: profile?.email ?? user.email ?? "",
+                    avatar: profile?.avatar_url ?? undefined,
+                  }}
+                  onLogout={handleLogout}
+                />
+              </>
+            ) : (
+              <div className="flex items-center gap-1">
+                <NavLink
+                  to="/login"
+                  className="mr-2 rounded-full px-4 py-2 text-sm font-medium text-froly-500 transition-colors hover:bg-froly-100"
+                >
+                  Sign In
+                </NavLink>
+
+                <NavLink
+                  to="/register"
+                  className="rounded-full bg-froly-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-froly-600"
+                >
+                  Sign Up
+                </NavLink>
+              </div>
+            ))}
         </div>
       </div>
     </header>

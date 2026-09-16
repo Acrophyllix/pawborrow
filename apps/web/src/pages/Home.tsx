@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import FAQS from "@/components/ui/Faq";
 import "@/styles/Home.css";
 import "@/styles/Button.css";
+import { MapPin, CalendarDays, PawPrint } from "lucide-react";
 
 type PawTileProps = {
   tone?: "coral" | "peach" | "sage" | "sand" | "ink";
@@ -16,51 +19,6 @@ type PhotoTileProps = {
   tone?: "coral" | "peach" | "sage" | "sand" | "ink";
   className?: string;
 };
-
-const POSTS = [
-  {
-    date: "24 May, 2024",
-    title: "First-Time Borrower? Here\u2019s What to Expect",
-    tone: "coral",
-  },
-  {
-    date: "24 May, 2024",
-    title: "How We Screen Every Companion Before Borrowing",
-    tone: "peach",
-  },
-  {
-    date: "24 May, 2024",
-    title: "Weekend With a Dog: A QC Student\u2019s Story",
-    tone: "sand",
-  },
-];
-
-const ITEMS = [
-  {
-    name: "Food Bowl",
-    note: "Included with every borrow",
-    tone: "sand" as const,
-    image: "/images/included-bowl.jpg",
-  },
-  {
-    name: "Cozy Bed",
-    note: "Included with every borrow",
-    tone: "peach" as const,
-    image: "/images/included-bed.jpg",
-  },
-  {
-    name: "Leash & Collar",
-    note: "For dogs and walks",
-    tone: "coral" as const,
-    image: "/images/included-leash.jpg",
-  },
-  {
-    name: "Starter Food Pack",
-    note: "₱199 add-on",
-    tone: "sage" as const,
-    image: "/images/included-food.jpg",
-  },
-];
 
 const PETS = [
   {
@@ -100,24 +58,28 @@ const CATEGORIES = [
     count: "10 companions",
     tone: "coral" as const,
     image: "/images/category-cats.jpg",
+    filterCategory: "Cat",
   },
   {
     name: "Dogs",
     count: "9 companions",
     tone: "peach" as const,
     image: "/images/category-dogs.jpg",
+    filterCategory: "Dog",
   },
   {
     name: "Guinea Pigs",
     count: "10 companions",
     tone: "sage" as const,
     image: "/images/category-guinea-pigs.jpg",
+    filterCategory: "Guinea Pig",
   },
   {
     name: "Rabbits",
     count: "3 companions",
     tone: "sand" as const,
     image: "/images/category-rabbits.jpg",
+    filterCategory: "Rabbit",
   },
 ];
 
@@ -129,8 +91,8 @@ export default function Home() {
       <Categories />
       <FeaturedPets />
       <SecondaryHero />
-      <Included />
-      <Stories />
+      <MobileApp />
+      <FAQS />
       <Footer />
     </>
   );
@@ -162,28 +124,27 @@ function Hero() {
       <div className="hero__text">
         <p className="eyebrow">PawBorrow &middot; Quezon City</p>
         <h1>
-          Pet companionship,
-          <br />
-          borrowed <span>your way.</span>
+          {" "}
+          Pet companionship, <br /> borrowed <span>your way.</span>
         </h1>
         <p className="hero__sub">
           Not ready to commit to full-time pet ownership? Borrow a cat, dog, or
           guinea pig for a day, a weekend, or however long you need the company.
         </p>
         <div className="hero__actions">
-          <a href="#browse" className="btn btn--dark">
+          <Link
+            to="/pets"
+            className="rounded-full bg-froly-400 py-3.5 px-6.5 font-medium text-white"
+          >
             Browse Pets
-          </a>
-          <a href="#how-it-works" className="btn btn--ghost">
-            How It Works
-          </a>
+          </Link>
         </div>
       </div>
 
       <div className="hero__art">
         <div className="hero__blob" aria-hidden="true" />
         <img
-          src="/images/hero-dogs.png"
+          src="/images/Ca4.png"
           alt="Three golden retriever puppies available to borrow"
           className="hero__cutout"
         />
@@ -197,15 +158,15 @@ function Categories() {
     <section id="browse" className="section categories">
       <div className="section__head">
         <h2>Browse by companion</h2>
-        <div className="section__arrows" aria-hidden="true">
-          <button aria-label="Previous">‹</button>
-          <button aria-label="Next">›</button>
-        </div>
       </div>
 
       <div className="categories__grid">
         {CATEGORIES.map((c) => (
-          <a href="#browse" className="category-card" key={c.name}>
+          <Link
+            to={`/pets?category=${encodeURIComponent(c.filterCategory)}`}
+            className="category-card"
+            key={c.name}
+          >
             <PhotoTile
               src={c.image}
               alt={c.name}
@@ -219,7 +180,7 @@ function Categories() {
               </div>
               <span className="category-card__arrow">→</span>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </section>
@@ -288,77 +249,95 @@ function FeaturedPets() {
 
 function SecondaryHero() {
   return (
-    <section id="how-it-works" className="section-hero">
-      <div className="section-hero__art">
-        <div className="section-hero__blob" aria-hidden="true" />
-        <img
-          src="/images/secondary-hero.png"
-          alt="Companion pets at home"
-          className="section-hero__cutout"
-        />
-      </div>
-      <div className="section-hero__text">
-        <p className="eyebrow eyebrow--dark">How It Works</p>
-        <h2>The smarter way to share your home with a pet</h2>
-        <p>
-          Pick a companion, choose your dates, and we handle the rest — food
-          bowl, leash, bed, and care instructions included. Return them when
-          your time's up.
-        </p>
-        <a href="#browse" className="btn btn--dark">
-          Learn More
-        </a>
-      </div>
-    </section>
-  );
-}
+    <section className="max-w-6xl mx-auto">
+      <h2 className="text-3xl xs:text-4xl lg:text-5xl text-froly-400 tracking-tighter font-bold text-center mb-2">
+        <span className="text-brand">How</span>
+        <span className="text-gray-900"> does it Work?</span>
+      </h2>
+      <p className="text-center text-sm sm:text-base font-inter text-[#696969] mb-6"></p>
 
-function Included() {
-  return (
-    <section className="section included">
-      <h2>What comes with every borrow</h2>
-
-      <div className="included__grid">
-        {ITEMS.map((item) => (
-          <div className="item-card" key={item.name}>
-            <PhotoTile
-              src={item.image}
-              alt={item.name}
-              tone={item.tone}
-              className="item-card__image"
-            />
-            <div className="item-card__meta">
-              <div>
-                <h3>{item.name}</h3>
-                <p>{item.note}</p>
-              </div>
-              <button aria-label={`Save ${item.name}`}>♥</button>
-            </div>
+      <div className="container px-0 my-16">
+        <div className="flex flex-wrap justify-center gap-8">
+          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-62.5 h-57.5 md:w-75 md:h-70 bg-white rounded-3xl font-inter">
+            <MapPin size={36} className="text-froly-300 mt-2" />
+            <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">Pick a Buddy</h3>
+            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Pick the perfect companion for your needs.</p>
           </div>
-        ))}
+          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-62.5 h-57.5 md:w-75 md:h-70 bg-white rounded-3xl font-inter">
+             <CalendarDays size={36} className="text-froly-300 mt-2" />
+            <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">Choose your Dates</h3>
+            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Choose the dates you want a buddy for.</p>
+          </div>
+          <div className="shadow-xl flex flex-col items-center px-4 py-6 w-62.5 h-57.5 md:w-75 md:h-70 bg-white rounded-3xl font-inter">
+             <PawPrint size={36} className="text-froly-300 mt-2" />
+            <h3 className="text-base md:text-xl mt-4 md:mt-7 font-inter text-froly-400 font-bold text-center mb-4 tracking-tighter">We handle the rest</h3>
+            <p className="text-sm md:text-base font-inter text-froly-300 text-justify leading-6">Food, leash, bed, and care instructions included. Return them when your time's up</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div className="container px-0 my-10 text-center">
+        <h1 className="text-1xl xs:text-4xl lg:text-5xl text-froly-400 tracking-tighter gap-2 font-bold text-center mb-2 flex flex-row items-center justify-center">
+          Why
+          <span className="text-black">choose</span>
+          <img src="/images/PawLogo2.png" alt="icon" />
+        </h1>
+         <h3 className=" hidden md:block font-bold text-2xl md:text-3xl text-background mt-3">
+          With the most fluffy poodles, and clingy cats 
+          <br className="hidden lg:block" />
+          you should get your fair share of cuddles at PawBorrow.
+         </h3>
+         <p className="text-justify sm:text-center text-sm sm:text-base font-inter text-[#696969] mt-3">
+          At PawBorrow, we believe everyone deserves the joy of animal companionship without the lifelong commitment. 
+          <br className="hidden lg:block" />
+          Whether you're seeking emotional support, a moment of relaxation, or therapeutic comfort,
+          <br className="hidden lg:block" />
+          our lovingly cared-for fleet of cats, dogs, and guinea pigs is ready to brighten your day. 
+          <br className="hidden lg:block" />
+          As a proudly Quezon City-based service, we make companionship effortless.
+          <br className="hidden lg:block" />
+          </p>
       </div>
     </section>
   );
 }
 
-function Stories() {
+
+function MobileApp() {
   return (
-    <section className="section stories">
-      <h2>Stories & Tips</h2>
-
-      <div className="stories__grid">
-        {POSTS.map((post) => (
-          <a href="#" className="story-card" key={post.title}>
-            <div
-              className={`story-card__cover story-card__cover--${post.tone}`}
-            >
-              <span className="story-card__badge">News</span>
-            </div>
-            <p className="story-card__date">{post.date}</p>
-            <h3>{post.title}</h3>
-          </a>
-        ))}
+    <section className="mx-auto max-w-(--max-w) px-6 pt-14">
+      <div className="flex flex-row items-center justify-center gap-8">
+        <div className="flex">
+          <img
+            src="/images/Mobile.png"
+            alt="Mobile app preview"
+            className="mt-4 w-full max-w-sm"
+          />
+        </div>
+        <div className="flex flex-col">
+          <h2 className="text-3xl xs:text-4xl lg:text-5xl font-bold">
+            Meet your {""}  
+            <span className="text-froly-400">
+              PawPal
+            </span>
+           {""} on mobile.
+          </h2>
+          <p className="text-background font-inter   text-sm sm:text-base font-normal mt-6 leading-5 sm:leading-7">
+            Download our app for easy access to our pet companion services.
+            <br/>
+            You can browse our adorable pawpals, book, and reserve.
+            <br/>
+            Available both on Android and iOS.
+          </p>
+          <img
+            src="/images/Googleplay.png"
+            alt="Google Play Store"
+            className="mt-4 w-full max-w-xs"
+          />
+        </div>
       </div>
     </section>
   );
 }
+
