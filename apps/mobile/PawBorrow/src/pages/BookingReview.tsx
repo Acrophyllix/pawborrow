@@ -1,29 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IonContent, IonPage, IonIcon } from '@ionic/react';
 import { chevronBackOutline, calendarOutline, timeOutline, cardOutline, chevronForwardOutline } from 'ionicons/icons';
-import { useBookings, Booking } from '../context/BookingsContext';
+import { createBooking, type CreateBookingInput } from '@repo/api';
 import { mockCards } from '../data/paymentMethods';
 import '../style/BookingReview.css';
 
-type DraftBooking = Omit<Booking, 'id' | 'status'>;
+type BookingDraft = {
+  petId: number;
+  photo: string;
+  name: string;
+  category: string;
+  subtitle: string;
+  reservationDate: string; 
+  timeSlot: string;        
+  durationMinutes: number;
+  displayDate: string;     
+  displayTime: string;
+  detail?: string;
+};
 
 const BookingReview = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { addBooking } = useBookings();
-  const draftState = location.state as (DraftBooking & { selectedCardId?: string; returnTo?: string }) | undefined;
-  const draft = draftState as DraftBooking | undefined;
+
+  const draftState = location.state as (BookingDraft & { selectedCardId?: string; returnTo?: string }) | undefined;
+  const draft = draftState as BookingDraft | undefined;
   const returnTo = draftState?.returnTo ?? '/dashboard';
 
   const [selectedCardId, setSelectedCardId] = useState(draftState?.selectedCardId ?? mockCards[0]?.id ?? '');
   const selectedCard = mockCards.find((c) => c.id === selectedCardId);
 
-  useEffect(() => {
-    if (draftState?.selectedCardId) {
-      setSelectedCardId(draftState.selectedCardId);
-    }
-  }, [draftState?.selectedCardId]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleBack = () => {
     navigate(returnTo, { replace: true });
@@ -31,11 +40,7 @@ const BookingReview = () => {
 
   const handlePaymentSelect = () => {
     navigate('/payment-methods', {
-      state: {
-        draft,
-        selectedCardId,
-        returnTo,
-      },
+      state: { draft, selectedCardId, returnTo },
     });
   };
 
@@ -52,9 +57,33 @@ const BookingReview = () => {
     );
   }
 
-  const handleConfirm = () => {
-    const booking = addBooking(draft);
-    navigate('/booking-confirmation', { state: booking, replace: true });
+  const handleConfirm = async () => {
+    setError(null);
+    setIsSubmitting(true);
+
+    const input: CreateBookingInput = {
+      pet_id: draft.petId,
+      reservation_date: draft.reservationDate,
+      time_slot: draft.timeSlot,
+      duration_minutes: draft.durationMinutes,
+    };
+
+    try {
+      const booking = await createBooking(input);
+      navigate('/booking-confirmation', {
+        state: {
+          ...booking,
+          photo: draft.photo,
+          name: draft.name,
+          subtitle: draft.subtitle,
+        },
+        replace: true,
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -83,13 +112,13 @@ const BookingReview = () => {
               <span className="booking-review-row-label">
                 <IonIcon icon={calendarOutline} /> Date
               </span>
-              <span className="booking-review-row-value">{draft.date}</span>
+              <span className="booking-review-row-value">{draft.displayDate}</span>
             </div>
             <div className="booking-review-row">
               <span className="booking-review-row-label">
                 <IonIcon icon={timeOutline} /> Time
               </span>
-              <span className="booking-review-row-value">{draft.time}</span>
+              <span className="booking-review-row-value">{draft.displayTime}</span>
             </div>
             {draft.detail && (
               <div className="booking-review-row">
@@ -117,17 +146,19 @@ const BookingReview = () => {
             </button>
           )}
 
+          {error && <p className="booking-review-error">{error}</p>}
+
           <p className="booking-review-note">
             Please review your booking details carefully. You can go back to change the date or time before confirming.
           </p>
         </div>
 
         <div className="booking-review-footer">
-          <button className="booking-review-cancel" onClick={handleBack}>
+          <button className="booking-review-cancel" onClick={handleBack} disabled={isSubmitting}>
             Back
           </button>
-          <button className="booking-review-confirm" onClick={handleConfirm} disabled={!selectedCard}>
-            Confirm Booking
+          <button className="booking-review-confirm" onClick={handleConfirm} disabled={!selectedCard || isSubmitting}>
+            {isSubmitting ? 'Booking...' : 'Confirm Booking'}
           </button>
         </div>
       </IonContent>

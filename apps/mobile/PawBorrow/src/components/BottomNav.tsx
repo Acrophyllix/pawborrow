@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IonIcon } from '@ionic/react';
-import { home, heartOutline, cartOutline, timeOutline, personOutline } from 'ionicons/icons';
+import { home, heartOutline, cartOutline, timeOutline, personOutline, pawOutline } from 'ionicons/icons';
 import './BottomNav.css';
 
 const VISIBLE_ON = ['/dashboard', '/pet-category', '/liked-pets', '/shop', '/history', '/profile'];
@@ -27,8 +27,8 @@ const BottomNav = () => {
         <span>Liked</span>
       </button>
 
-      <button className="bottom-nav-fab" aria-label="Shop" onClick={() => navigate('/shop')}>
-        <IonIcon icon={cartOutline} />
+      <button className="bottom-nav-fab" aria-label="Shop" onClick={() => navigate('/pet-category')}>
+        <IonIcon icon={pawOutline} />
       </button>
 
       <button className="bottom-nav-item ${location.pathname === '/history' ? 'bottom-nav-item--active' : ''}" onClick={() => navigate('/history')}>
